@@ -4,7 +4,7 @@ from common.count_case import CountResult
 from common.get_case import import_case
 from common.operate_file import operate_yaml
 from common.report_excel import ReportExcel
-from common.new_run_case import StartTest
+from common.excel_run_case import StartTest
 # from common.send_email import send_email
 
 def start(base):

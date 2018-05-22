@@ -198,7 +198,7 @@ class StartTest(object):
         method = Case.all_case[index].get("method","GET")#默认为get请求
         message = Case.all_case[index].get('message')
         request_type = Case.all_case[index].get("type")
-        chenk_method = Case.all_case[index].get('chenk_method','message')#校验方式，默认db为数据，另外包括message校验，status校验
+        chenk_method = Case.all_case[index].get('chenk_method','message')#校验方式，默认message为数据，另外包括db校验，status校验,page
         url = Case.all_case[index].get('url')
         if url:
             urls = self.host + url
@@ -222,8 +222,10 @@ class StartTest(object):
                 elif chenk_method == 'db':
                     sql = Case.all_case[index].get('sql')
                     if '%' in sql:
-                        for v in APIParam.param.get(index).values():
-                            param_value = v
+                        for value in APIParam.param.get(index).values():
+                            if isinstance(value,list):
+                                continue
+                            param_value = value
                             break
                         sql = sql%param_value
                     db = SelectMySQL(self.db_host,self.db_username,self.db_password,self.db)
