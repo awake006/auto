@@ -1,0 +1,25 @@
+- name: 加入群
+  method: GET
+  type: data
+  hope: success
+  url: api/group/join
+  id: 1001
+  params:
+    group_id:
+      id: 1002
+      value: group_id
+    user_id: 2
+- name: 创建群
+  method: POST
+  type: data
+  hope: sucess
+  url: api/group/store
+  id: 1002
+  params:
+    group_name: name
+    category_id: 1
+    type: 1
+    user_id: 3
+    longitude: 113.9401565012
+    latitude: 22.5496157178
+    address: shenzhen

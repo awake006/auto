@@ -1,0 +1,12 @@
+上传文件的参数格式
+{
+    'laravel_session':(None,'000f08c9bbc00d6076227b991b18d37788e7df29'),
+    'user_id':(None,"17"),
+    'contest_id':(None,"68"),
+    'group_id':(None,"35"),
+    'latitude':(None,"113.9401565012"),
+    'longitude':(None,"22.5496157178"),
+    'address':(None,"shenzhen"),
+    'img':('img.png',open(r"G:\web\oneday\python_script\image\20170801174756.jpg","rb"),"image/jpg/png/jpeg"),
+    'video':('video.mp4',open(r"G:\web\oneday\python_script\image\20170801174756.jpg","rb"),"video/mp4")
+    }
