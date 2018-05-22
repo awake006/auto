@@ -7,7 +7,7 @@ from common.count_case import CountResult
 
 
 class ReportExcel(object):
-    def __init__(self, result, path, head_detail=['id', "name", "url", "type", "expectedValues", "returnValue", "result"], head_about=['fail', "success", "total"]):
+    def __init__(self, result, path, head_detail=['id', "name", "url", "type", "expected/request", "return/db", "result"], head_about=['fail', "success", "total"]):
         self.result = result
 
         self.head_detail = head_detail

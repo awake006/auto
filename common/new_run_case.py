@@ -12,16 +12,18 @@ class StartTest(object):
         self.host = base.get('host')
         self.port = base.get('port')
         self.headers = base.get('headers')
-        if base.get("number", False):
+        if base.get("number"):
             self.number = base.get("number").split(',')
         else:
             self.number = self._get_case_number()
         self.results = []
-        # self.headers['token'] = self._sign_in()
         self.db = base.get('db')
-        self.username = base.get("username")
-        self.password = base.get('password')
+        self.db_username = base.get("db_username")
+        self.db_password = base.get('db_password')
         self.db_host = base.get("db_host")
+        self.login_url = base.get("login_url")
+        self.login_username = base.get("login_username")
+        self.login_password = base.get("login_password")
 
     def _get_case_number(self):
         case_number = []
@@ -34,17 +36,23 @@ class StartTest(object):
         获取用户登录token
         支持帐号登录可以写一个登录的方法
         '''
-        pass
+        data = {'username':self.login_username,'password':self.login_password}
+        response = requests.post(url=self.login_url,json=data)
+        return response.headers['token']
 
     def _set_str(self,n):
         '''
         随机生成n位的str
         '''
-        source = list(string.ascii_letters) + list(string.digits)
-        name = ''
-        for _ in range(n):
-            name += random.choice(source)
-        return name
+        try: 
+            n = int(n)
+            source = list(string.ascii_letters) + list(string.digits)
+            name = ''
+            for _ in range(n):
+                name += random.choice(source)
+            return name
+        except TypeError as e:
+            raise e
 
     def _set_time(self):
         '''时间，避免数据重复'''
@@ -67,20 +75,20 @@ class StartTest(object):
                 """
                 case_dict = params.get(key)
                 case_id = case_dict.get('id')
-                case_data = ResultCase.case_result.get(case_id,None)
+                case_data = ResultCase.case_result.get(case_id)
                 if case_data:
                     case_result = case_data
                 else:
                     self.run_case(case_id)
-                    case_result = ResultCase.case_result.get(case_id,None)
+                    case_result = ResultCase.case_result.get(case_id)
                 if case_result:
                     if type(case_result) != list:
                         v = case_result
                     else:
                         v = case_result[0]
                     data[key] = (None, str(v.get(case_dict.get('value'))))
-            elif isinstance(params.get(key),list):         
-                data[key] = (None, str(self._set_str(params.get(key)[1])))
+            elif params.get(key).split(',')[0] == 'get_name':
+                data[key] = self._set_str(params.get(key).split(',')[1])
             elif params.get(key) == "random":
                 data[key] = (None, str(self._set_time()))
             elif key == "video":  # 上传MP4格式的文件
@@ -111,20 +119,20 @@ class StartTest(object):
                 """
                 case_dict = params.get(key)
                 case_id = case_dict.get('id')
-                case_data = ResultCase.case_result.get(case_id,None)
+                case_data = ResultCase.case_result.get(case_id)
                 if case_data:
                     case_result = case_data
                 else:
                     self.run_case(case_id)
-                    case_result = ResultCase.case_result.get(case_id,None)
+                    case_result = ResultCase.case_result.get(case_id)
                 if case_result:
                     if type(case_result) != list:
                         v = case_result
                     else:
                         v = case_result[0]
                     data[key] = v.get(case_dict.get('value'))
-            elif isinstance(params.get(key),list): 
-                data[key] = self._set_str(params.get(key)[1])
+            elif params.get(key).split(',')[0] == 'get_name':
+                data[key] = self._set_str(params.get(key).split(',')[1])
             elif params.get(key) == "random":
                 data[key] = self._set_time()
             else:
@@ -156,7 +164,7 @@ class StartTest(object):
                     response = requests.get(headers=self.headers,url=urls,params=data)
         return response
 
-    def chenk_message(self,response, result_message, message):
+    def chenk_message(self, result_message, message):
         '''
         获取一个用例的测试结果
         '''
@@ -165,11 +173,14 @@ class StartTest(object):
         else:
             return False
 
-    def chenk_db(self,response,result_message,data,sql_result,message):
-        if (result_message == message) and (data==sql_result):
-            return True
-        else:
-            return False
+    def chenk_db(self,data,sql_result):
+        for key in data.keys():
+            if data[key] == sql_result[key]:
+                continue
+            else:
+                return False
+        return True
+
     def chenk_status(self):
         pass
 
@@ -177,15 +188,18 @@ class StartTest(object):
         '''
         运行一个请求
         '''
+        index = int(index)
+        is_login = Case.all_case[index].get('login')
+        if is_login:
+            self.headers['token'] = self._sign_in()
         result = []
         result_value = {}
         name = Case.all_case[index].get("name","case_name_is_none")
         method = Case.all_case[index].get("method","GET")#默认为get请求
-        message = Case.all_case[index].get('message',None)
-        request_type = Case.all_case[index].get("type",None)
-        sql = Case.all_case[index].get('sql',None)
-        chenk_method = Case.all_case[index].get('chenk_method','db')#校验方式，默认db为数据，另外包括message校验，status校验
-        url = Case.all_case[index].get('url',None)
+        message = Case.all_case[index].get('message')
+        request_type = Case.all_case[index].get("type")
+        chenk_method = Case.all_case[index].get('chenk_method','message')#校验方式，默认db为数据，另外包括message校验，status校验
+        url = Case.all_case[index].get('url')
         if url:
             urls = self.host + url
             result.append(index)
@@ -204,16 +218,25 @@ class StartTest(object):
                     result.append(message)
                     result_message = result_value.get("msg")
                     result.append(result_message)
-                    is_pass = self.chenk_message(response,result_message,message)
+                    is_pass = self.chenk_message(result_message,message)
                 elif chenk_method == 'db':
-                    db = SelectMySQL(self.db_host,self.username,self.password,self.db)
+                    sql = Case.all_case[index].get('sql')
+                    if '%' in sql:
+                        for v in APIParam.param.get(index).values():
+                            param_value = v
+                            break
+                        sql = sql%param_value
+                    db = SelectMySQL(self.db_host,self.db_username,self.db_password,self.db)
                     db.connect()
-                    sql_result = db.select_all(sql)
-                    is_pass = self.chenk_db(response,result_message,APIParam.param.get(index),sql_result,message)
+                    sql_result = db.select_one(sql)
+                    request_data = APIParam.param.get(index)
+                    result.append(str(request_data))
+                    result.append(str(sql_result))
+                    is_pass = self.chenk_db(request_data,sql_result)
                 elif chenk_method == "page":
                     pass
                 else:
-                    self.chenk_status()
+                    pass
                 if is_pass:
                     ResultCase.case_result[index] = result_value.get('data')
         else:

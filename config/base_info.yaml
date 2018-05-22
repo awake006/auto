@@ -1,6 +1,14 @@
 - title: 移民点评
+  number: 1003,
   host: http://api.admin.dianping.lubanfenqi.com/
-  header:
+  db_username: mmkj_remote
+  db_password: jxauwx#@mmkj
+  db_host: 120.79.173.217
+  db: immigrant2
+  login_url: http://api.admin.dianping.lubanfenqi.com/admin/login
+  login_username: admin
+  login_password: 123456
+  headers:
     Accept-Encoding: gzip;q=1.0,compress;q=0.5
     Accept-Language: zh-Hans-CN;q=1.0,en-CN;q=0.9,zh-Hant-CN;q=0.8
     User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36

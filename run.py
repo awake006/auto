@@ -13,16 +13,19 @@ def start(base):
     '''
     test = StartTest(base)
     for index in test.number:
-        print("正在执行用例:%s...." % index)
-        case_result, is_pass = test.run_case(index)
-        CountResult.total += 1
-        if is_pass:
-            case_result.append("pass")
-            CountResult.success += 1
+        if index:
+            print("正在执行用例:%s...." % index)
+            case_result, is_pass = test.run_case(index)
+            CountResult.total += 1
+            if is_pass:
+                case_result.append("pass")
+                CountResult.success += 1
+            else:
+                case_result.append("fail")
+                CountResult.fail += 1
+            test.results.append(case_result)
         else:
-            case_result.append("fail")
-            CountResult.fail += 1
-        test.results.append(case_result)
+            continue
     return test.results
 
 
