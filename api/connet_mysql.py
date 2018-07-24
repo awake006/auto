@@ -3,8 +3,8 @@ from pymysql import err
 
 
 class SelectMySQL(object):
-    
-    def __init__(self,host,username,password,db_name):
+
+    def __init__(self, host, username, password, db_name):
         self.host = host
         self.username = username
         self.password = password
@@ -12,12 +12,12 @@ class SelectMySQL(object):
 
     def connect(self):
         try:
-            self.db = pymysql.connect(self.host,self.username,self.password,self.db_name)
+            self.db = pymysql.connect(self.host, self.username, self.password, self.db_name)
             self.cursor = self.db.cursor(cursor=pymysql.cursors.DictCursor)
         except err.OperationalError as e:
             raise e
 
-    def select_one(self,sql):
+    def select_one(self, sql):
         try:
             self.cursor.execute(sql)
             return self.cursor.fetchone()
@@ -26,7 +26,7 @@ class SelectMySQL(object):
         finally:
             self.db.close()
 
-    def select_all(self,sql):
+    def select_all(self, sql):
         try:
             self.cursor.execute(sql)
             return self.cursor.fetchall()
@@ -35,8 +35,9 @@ class SelectMySQL(object):
         finally:
             self.db.close()
 
+
 if __name__ == "__main__":
-    db = SelectMySQL("localhost",'root','12346','test')
+    db = SelectMySQL("localhost", 'root', '12346', 'test')
     sql = "SELECT * FROM user"
     db.connect()
     result = db.select_all(sql)

@@ -1,4 +1,4 @@
-#数据存储
+# 数据存储
 class CountResult(object):
     '''用例结果统计 result: 
     case
@@ -8,6 +8,7 @@ class CountResult(object):
     total = 0
     result = {}
 
+
 class Case(object):
     '''用例存储 {
         case_id1:
@@ -16,6 +17,7 @@ class Case(object):
     }'''
     all_case = {}
 
+
 class ResultCase():
     '''用例结果参数存储，以备其他用例调用  {
         case_id1:{response:info,data:{key:value}},
@@ -23,6 +25,7 @@ class ResultCase():
     }'''
 
     case_result = {}
+
 
 class APIParam():
     '''提交参数存储，用于与数据库校验结果 {

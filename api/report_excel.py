@@ -3,7 +3,7 @@ import time
 
 import xlsxwriter
 
-from common.count_case import CountResult
+from api.count_case import CountResult
 
 
 class ReportExcel(object):

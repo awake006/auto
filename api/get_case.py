@@ -1,6 +1,7 @@
-from common.count_case import Case
-from common.get_all_file import get_all_yaml
-from common.operate_file import operate_yaml
+from api.count_case import Case
+from api.get_all_file import get_all_yaml
+from api.operate_file import operate_yaml
+
 
 def import_case(path):
     '''
@@ -14,8 +15,7 @@ def import_case(path):
         Case.all_case[case.get('id')] = case
     print("用例导入成功....")
 
+
 if __name__ == "__main__":
     import_case(r"d:\python_code\APIAutoTest-master\case\case_yaml")
     print(Case.all_case)
-    
-

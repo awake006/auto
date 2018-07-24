@@ -4,8 +4,9 @@ import string
 import time
 
 import requests
-from common.connet_mysql import SelectMySQL
-from common.count_case import Case,APIParam,ResultCase
+from api.connet_mysql import SelectMySQL
+from api.count_case import Case, APIParam, ResultCase
+
 
 class StartTest(object):
     def __init__(self, base):
@@ -36,15 +37,15 @@ class StartTest(object):
         获取用户登录token
         支持帐号登录可以写一个登录的方法
         '''
-        data = {'username':self.login_username,'password':self.login_password}
-        response = requests.post(url=self.login_url,json=data)
+        data = {'username': self.login_username, 'password': self.login_password}
+        response = requests.post(url=self.login_url, json=data)
         return response.headers['token']
 
-    def _set_str(self,n):
+    def _set_str(self, n):
         '''
         随机生成n位的str
         '''
-        try: 
+        try:
             n = int(n)
             source = list(string.ascii_letters) + list(string.digits)
             name = ''
@@ -140,28 +141,28 @@ class StartTest(object):
         APIParam.param[index] = data
         return data
 
-    def _format_put_and_delete(self,url,index):
+    def _format_put_and_delete(self, url, index):
         data = {}
-        return url,data
+        return url, data
 
-    def requests_case(self,request_type,index,method,urls):
+    def requests_case(self, request_type, index, method, urls):
         '''执行一次http请求，返回结果'''
         if request_type:
             files = self._format_file_param(index)
-            response = requests.post(headers=self.headers,url=urls,files=files)
+            response = requests.post(headers=self.headers, url=urls, files=files)
         else:
             if method == ("PUT" or "DELETE"):
-                urls,data = self._format_put_and_delete(urls,index)
+                urls, data = self._format_put_and_delete(urls, index)
                 if method == "PUT":
-                    response = requests.post(headers=self.headers,url=urls,json=data)
+                    response = requests.post(headers=self.headers, url=urls, json=data)
                 elif method == "DELETE":
-                    response = requests.delete(headers=self.headers,url=urls,json=data)
+                    response = requests.delete(headers=self.headers, url=urls, json=data)
             else:
                 data = self._format_param(index)
                 if method == "POST":
-                    response = requests.post(headers=self.headers,url=urls,json=data)
+                    response = requests.post(headers=self.headers, url=urls, json=data)
                 else:
-                    response = requests.get(headers=self.headers,url=urls,params=data)
+                    response = requests.get(headers=self.headers, url=urls, params=data)
         return response
 
     def chenk_message(self, result_message, message):
@@ -173,7 +174,7 @@ class StartTest(object):
         else:
             return False
 
-    def chenk_db(self,data,sql_result):
+    def chenk_db(self, data, sql_result):
         for key in data.keys():
             if data[key] == sql_result[key]:
                 continue
@@ -194,11 +195,11 @@ class StartTest(object):
             self.headers['token'] = self._sign_in()
         result = []
         result_value = {}
-        name = Case.all_case[index].get("name","case_name_is_none")
-        method = Case.all_case[index].get("method","GET")#默认为get请求
+        name = Case.all_case[index].get("name", "case_name_is_none")
+        method = Case.all_case[index].get("method", "GET")  # 默认为get请求
         message = Case.all_case[index].get('message')
         request_type = Case.all_case[index].get("type")
-        chenk_method = Case.all_case[index].get('chenk_method','message')#校验方式，默认message为数据，另外包括db校验，status校验,page
+        chenk_method = Case.all_case[index].get('chenk_method', 'message')  # 校验方式，默认message为数据，另外包括db校验，status校验,page
         url = Case.all_case[index].get('url')
         if url:
             urls = self.host + url
@@ -206,35 +207,35 @@ class StartTest(object):
             result.append(name)
             result.append(url)
             result.append(method)
-            response = self.requests_case(request_type,index,method,urls)
+            response = self.requests_case(request_type, index, method, urls)
             try:
                 result_value = response.json()
             except:
                 result.append('返回值必须为json格式')
-                result.append('返回结果格式错误，status_code:%s'%response.status_code)
+                result.append('返回结果格式错误，status_code:%s' % response.status_code)
                 is_pass = False
             else:
                 if chenk_method == 'message':
                     result.append(message)
                     result_message = result_value.get("msg")
                     result.append(result_message)
-                    is_pass = self.chenk_message(result_message,message)
+                    is_pass = self.chenk_message(result_message, message)
                 elif chenk_method == 'db':
                     sql = Case.all_case[index].get('sql')
                     if '%' in sql:
                         for value in APIParam.param.get(index).values():
-                            if isinstance(value,list):
+                            if isinstance(value, list):
                                 continue
                             param_value = value
                             break
-                        sql = sql%param_value
-                    db = SelectMySQL(self.db_host,self.db_username,self.db_password,self.db)
+                        sql = sql % param_value
+                    db = SelectMySQL(self.db_host, self.db_username, self.db_password, self.db)
                     db.connect()
                     sql_result = db.select_one(sql)
                     request_data = APIParam.param.get(index)
                     result.append(str(request_data))
                     result.append(str(sql_result))
-                    is_pass = self.chenk_db(request_data,sql_result)
+                    is_pass = self.chenk_db(request_data, sql_result)
                 elif chenk_method == "page":
                     pass
                 else:
@@ -250,5 +251,4 @@ class StartTest(object):
             result.append('url不能为空')
             result.append('url为空')
             is_pass = False
-        return result,is_pass
-        
+        return result, is_pass

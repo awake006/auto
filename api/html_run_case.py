@@ -4,8 +4,8 @@ import string
 import time
 
 import requests
-from common.connet_mysql import SelectMySQL
-from common.count_case import Case,APIParam,ResultCase
+from api.connet_mysql import SelectMySQL
+from api.count_case import Case, APIParam, ResultCase
 
 class StartTest(object):
     def __init__(self, base):

@@ -1,11 +1,12 @@
 import os
 
-from common.count_case import CountResult
-from common.get_case import import_case
-from common.operate_file import operate_yaml
-from common.report_excel import ReportExcel
-from common.excel_run_case import StartTest
+from api.count_case import CountResult
+from api.get_case import import_case
+from api.operate_file import operate_yaml
+from api.report_excel import ReportExcel
+from api.excel_run_case import StartTest
 # from common.send_email import send_email
+
 
 def start(base):
     '''
