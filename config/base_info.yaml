@@ -1,11 +1,11 @@
 - title: 移民点评
-  number: 1003,
-  host: http://api.admin.dianping.lubanfenqi.com/
+  case_no: 
+  host: http://api.admin.lbd.magicodetech.com
   db_username: mmkj_remote
   db_password: jxauwx#@mmkj
   db_host: 120.79.173.217
   db: immigrant2
-  login_url: http://api.admin.dianping.lubanfenqi.com/admin/login
+  login_url: login
   login_username: admin
   login_password: 123456
   headers:

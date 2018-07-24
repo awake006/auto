@@ -5,5 +5,5 @@
   id: 1003
   url: admin/addCateory
   params:
-    name: get_name,10
+    name: str,10
   sql: "select * from cateory where name = '%s'"

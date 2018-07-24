@@ -1,11 +1,13 @@
+import os
+import smtplib
 from email import encoders
 from email.header import Header
-from email.mime.text import MIMEText
-from email.utils import parseaddr, formataddr
-from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-import smtplib
-import os
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import formataddr, parseaddr
+
+from api.log import console_logger
 
 
 def _format_addr(s):
@@ -32,4 +34,4 @@ def send_email(excel, email):
     server.login(email.get("from"), email.get("password"))
     server.sendmail(email.get("from"), [email.get("to_address")], msg.as_string())
     server.quit()
-    print("邮件发送完成")
+    console_logger.info('右键发送成功')

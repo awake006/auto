@@ -53,7 +53,7 @@ console_logger = logging.getLogger("console_logger")
 sh = logging.StreamHandler()
 sh.setLevel(logging.INFO)
 # formatter that doesn't include anything but the message
-sh.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+sh.setFormatter(logging.Formatter('[%(asctime)s]-[%(levelname)s]: %(message)s'))
 console_logger.addHandler(sh)
 console_logger.propagate = False
 
