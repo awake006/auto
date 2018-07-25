@@ -1,9 +1,0 @@
-- name: 添加分类
-  method: POST
-  chenk_method: db
-  login: 1
-  id: 1007
-  url: admin/addCateory
-  params:
-    name: str,10
-  sql: "select * from cateory where name = '%s'"
