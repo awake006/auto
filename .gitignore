@@ -8,4 +8,4 @@ config/*
 dist/*
 debug.py
 _pycache/*
-*/_pycache/*
+api/_pycache/*
