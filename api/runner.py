@@ -282,6 +282,7 @@ class RunTest(object):
             result.append('用例[%s]执行失败' % response)
             result.append('')
             message_warning_case = '用例[%s]执行失败，无法构建用例[%s]参数，暂不执行该用例' % (response, index)
+            self.logger.warning(message_warning_case)
             console_logger.warning(message_warning_case)
             is_pass = False
         if is_pass:

@@ -4,21 +4,19 @@
 
 2.通过config文件夹配置邮箱，请求头，cookie,host，需要执行
 
-的用例，number表示要执行的用例id用“,”隔开。
+的用例，case_no表示要执行的用例id用“,”隔开。
 
-3.reports文件夹存储了每次执行的用例结果，以时间命名文件。
+3.通过命令create templates生成测试文件夹,用例以及配置文件模板。
 
-4.common文件夹为辅助方法。
+4.reports文件夹存储了每次执行的用例结果，以时间命名文件。
 
 5.目前关联参数通过配置用例参数值为{id: 1001, value: group_id}表示需要从用例1001获
 
 取参数group_id的值。
 
-6.通过判断用例中的hope参数是否与实际结果一致来验证。
+6.可通过数据库，message，status判断测试结果。
 
-7.需要在当前文件夹下执行run.py。
-
-8.yaml的type为file时表示是文件上传类型的接口，不填或填其他表示普通数据的请求。
+7.需要在create templates目录下执行命令api。
 
 
 example:

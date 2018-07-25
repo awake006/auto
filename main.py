@@ -1,5 +1,5 @@
 import os
-import sys
+import time
 from api.data import Count
 from api.operate_file import operate_yaml, import_case, set_excel
 from api.runner import RunTest
@@ -69,7 +69,8 @@ def main():
     log_dir = os.path.join(path, 'log')
     if not os.path.exists(log_dir):
         os.mkdir(log_dir)
-    log_path = os.path.join(log_dir, 'test.log')
+    log_filename = str(time.strftime("%Y%m%d%H%M%S", time.localtime())) + '.log'
+    log_path = os.path.join(log_dir, log_filename)
     logger = log_init(log_path)
     # 用例、配置导入
     if not case_dir:
