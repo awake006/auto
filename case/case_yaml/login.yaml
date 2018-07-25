@@ -3,7 +3,7 @@
   message: 登录成功
   chenk_method: message
   url: login
-  id: 1001
+  id: 1005
   params:
     account: admin
     password: 123456
@@ -12,7 +12,7 @@
   message: 登录参数失败,请检查账号密码
   url: login
   chenk_method: message
-  id: 1002
+  id: 1006
   params:
     account: admin
     password: 1234568

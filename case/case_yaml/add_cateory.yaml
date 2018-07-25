@@ -2,7 +2,7 @@
   method: POST
   chenk_method: db
   login: 1
-  id: 1003
+  id: 1007
   url: admin/addCateory
   params:
     name: str,10
