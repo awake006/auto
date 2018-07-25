@@ -1,4 +1,4 @@
-- title: 移民点评
+- title: name
   case_no: 
   host: http://api.admin.lbd.magicodetech.com
   db_username: mmkj_remote

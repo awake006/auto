@@ -37,6 +37,7 @@ setup(
     # 注意：模块与函数之间是冒号:
     entry_points={'console_scripts': [
         'api = main:main',
+        'api create templete = main:create',
     ]},
 
     # long_description=read('README.md'),

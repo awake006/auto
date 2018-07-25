@@ -26,6 +26,8 @@
     group_id:
       id: 1002
       value: group_id
+    video: D:\video\20s.mp4
+    img: G:\picture\link.jpg
     longitude: '113.9401565012'
     latitude: '22.5496157178'
     address: shenzhen

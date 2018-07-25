@@ -38,7 +38,7 @@ def parse_options():
         '-P', '--case-path',
         dest='case_dir',
         default=None,
-        help='Case dir abspath,default cmd-dir case/case_yaml'
+        help='Case dir abspath,default cmd-dir case'
     )
     parser.add_option(
         '-G', '--config-file',
@@ -74,7 +74,7 @@ def main():
     logger = log_init(log_path)
     # 用例、配置导入
     if not case_dir:
-        case_dir = PATH(os.path.join(path, 'case/case_yaml'))
+        case_dir = PATH(os.path.join(path, 'case'))
     import_case(case_dir)
     if not config_file:
         config_file = PATH(os.path.join(path, 'config/base_info.yaml'))
@@ -108,5 +108,79 @@ def main():
     console_logger.info(message_info_excel)
 
 
+def create():
+    path = os.getcwd()
+    base_dir = os.path.join(path, 'api')
+    if not os.path.exists(base_dir):
+        os.mkdir(base_dir)
+    case_dir = os.path.join(base_dir, 'case')
+    if not os.path.exists(case_dir):
+        os.mkdir(case_dir)
+    config_dir = os.path.join(base_dir, 'config')
+    if not os.path.exists(config_dir):
+        os.mkdir(config_dir)
+    case_templete = os.path.abspath(os.path.join(case_dir, 'case_templete.yaml'))
+    config_templete = os.path.abspath(os.path.join(config_dir, 'config_templete.yaml'))
+    with open(case_templete, 'w', encoding='utf-8') as f:
+        case_str = r'''
+- name: 加入比赛
+  method: POST
+  type: file
+  hope: $sucess
+  url: api/work/store
+  id: 1003
+  params:
+    user_id: 3
+    contest_id:
+      id: 1004
+      value: contest_id
+    group_id:
+      id: 1002
+      value: group_id
+    longitude: '113.9401565012'
+    latitude: '22.5496157178'
+    address: shenzhen
+- name: 创建比赛
+  method: POST
+  type: file
+  hope: sucess
+  url: api/contest/store
+  id: 1004
+  params:
+    user_id: 3
+    group_id:
+      id: 1002
+      value: group_id
+    video: D:\video\20s.mp4
+    img: G:\picture\link.jpg
+    longitude: '113.9401565012'
+    latitude: '22.5496157178'
+    address: shenzhen
+    description: name
+    title: random
+    video_time: 20
+        '''
+        f.write(case_str)
+    with open(config_templete, 'w', encoding='utf-8')as f:
+        config_str = r'''
+- title: 
+  case_no: 
+  host:
+  db_username: 
+  db_password: 
+  db_host: 
+  db: 
+  login_url: 
+  login_username: 
+  login_password: 
+  headers:
+    Accept-Encoding: gzip;q=1.0,compress;q=0.5
+    Accept-Language: zh-Hans-CN;q=1.0,en-CN;q=0.9,zh-Hant-CN;q=0.8
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
+        '''
+        f.write(config_str)
+
+
 if __name__ == "__main__":
-    main()
+    # main()
+    create()
