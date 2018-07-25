@@ -108,6 +108,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    opts = parse_options()
-    print(opts.config_file)
+    main()
