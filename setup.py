@@ -36,8 +36,8 @@ setup(
     # 添加这个选项，在windows下Python目录的scripts下生成exe文件
     # 注意：模块与函数之间是冒号:
     entry_points={'console_scripts': [
-        'api = main:main',
-        'api create templete = main:create',
+        'api = api.main:main',
+        'create templete = api.main:create',
     ]},
 
     # long_description=read('README.md'),

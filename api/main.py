@@ -1,5 +1,6 @@
 import os
 import time
+import sys
 from api.data import Count
 from api.operate_file import operate_yaml, import_case, set_excel
 from api.runner import RunTest
@@ -46,6 +47,12 @@ def parse_options():
         default=None,
         help='Config file abspath,default default cmd-dir config/base_info.yaml'
     )
+    parser.add_option(
+        '-T', '--create-templete',
+        dest='create_templete',
+        default=None,
+        help='Create templete'
+    )
     opts, _ = parser.parse_args()
     return opts
 
@@ -64,6 +71,11 @@ def main():
     case_no = opts.case
     case_dir = opts.case_dir
     config_file = opts.config_file
+    is_create = opts.create_templete
+    if is_create:
+        create()
+        print("创建模板成功")
+        sys.exit()
     # 日志文件配置
     path = os.getcwd()
     log_dir = os.path.join(path, 'log')

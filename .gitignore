@@ -1,0 +1,9 @@
+log/*
+reports/*
+.vscode/*
+api.egg-info/*
+build/*
+case/*
+config/*
+dist/*
+debug.py
