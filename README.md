@@ -1,22 +1,22 @@
 #APIATUOTEST
 
-1.接口自动化测试工具，通过case目录的yaml文件编写测试用例。
+1.Interface automation test tool, write test cases through the yaml file of the case directory.
 
-2.通过config文件夹配置邮箱，请求头，cookie,host，需要执行
+2.Configure the mailbox through the config folder, request header, cookie, host, need to execute
 
-的用例，case_no表示要执行的用例id用“,”隔开。
+The use case, case_no, indicates that the use case id to be executed is separated by ",".
 
-3.通过命令create templates生成测试文件夹,用例以及配置文件模板。
+3.Generate test folders, use cases, and configuration file templates with the command create templates.
 
-4.reports文件夹存储了每次执行的用例结果，以时间命名文件。
+4.The reports folder stores the use case results for each execution, naming the files by time.
 
-5.目前关联参数通过配置用例参数值为{id: 1001, value: group_id}表示需要从用例1001获
+5.Currently, the associated parameter parameter needs to be obtained from use case 1001 by setting the value of the use case parameter to {id: 1001, value: group_id}.
 
-取参数group_id的值。
+Take the value of the parameter group_id.
 
-6.可通过数据库，message，status判断测试结果。
+6.The test results can be judged through the database, message, status.
 
-7.需要在create templates目录下执行命令api。
+7.You need to execute the command api in the create templates directory.
 
 
 example:
