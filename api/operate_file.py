@@ -70,27 +70,29 @@ def set_excel(result, path):
     filename = os.path.join(path, name)
     filename = os.path.abspath(filename)
     workbook = xlsxwriter.Workbook(filename)
-    sheet_about = workbook.add_worksheet("about")  # 设置表格为about
+    # Set the form to about
+    sheet_about = workbook.add_worksheet("about")  
     sheet_detail = workbook.add_worksheet("detail")
     sheet_detail.set_column('B:C', 25)
     sheet_detail.set_column('E:F', 35)
     sheet_about.set_column('A:C', 25)
+    # Set the header style
     td = workbook.add_format(
-        {"bold": True, 'font_size': 15, 'align': 'center'})  # 设置表头样式
+        {"bold": True, 'font_size': 15, 'align': 'center'}) 
     th = workbook.add_format({'font_size': 14, 'align': 'center'})
     sheet_about.write_row("A1", head_about, td)
     sheet_detail.write_row("A1", head_detail, td)
-    # 表格detail填充数据
+    # Table detail fill data
     row = 1
     for value in result:
         sheet_detail.write_row(row, 0, value, th)
         row += 1
-    # 表格about填充数据
+    # Form about fill data
     sheet_about.write(1, 0, Count.fail, th)
     sheet_about.write(1, 1, Count.success, th)
     sheet_about.write(1, 2, Count.total, th)
     chart = workbook.add_chart({"type": "pie"})
-    # 从about表格获取pie数据
+    # Get pie data from about form
     chart.add_series(
         {
             'name': 'Interface test report',

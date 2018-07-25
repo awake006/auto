@@ -1,4 +1,4 @@
-# 数据存储
+# data storage
 class Count(object):
     '''Use case results statistics
     result: 

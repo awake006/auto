@@ -86,11 +86,11 @@ class RunTest(object):
                 elif params.get(key) == "random":
                     data[key] = (None, str(_set_time()))
 
-                elif key == "video":  # 上传MP4格式的文件
+                elif key == "video":  
                     data[key] = ("video.mp4", open(
                         params.get(key), 'rb'), "video/mp4")
 
-                elif key == "img":  # 上传类型是图片
+                elif key == "img":
                     data[key] = ('img.png', open(
                         params.get(key), 'rb'), "image/jpg/png/jpeg")
                 else:
@@ -296,10 +296,9 @@ class RunTest(object):
 
 def _get_case_data(index, result):
     name = Case.case[index].get("name")
-    method = Case.case[index].get("method", "GET").upper()  # 默认为get请求
+    method = Case.case[index].get("method", "GET").upper() 
     message = Case.case[index].get('message', 'success')
     request_type = Case.case[index].get("type")
-    # 校验方式，默认message为数据，另外包括db校验，status校验,page
     chenk_method = Case.case[index].get('chenk_method', 'message').upper()
     url = Case.case[index].get('url')
     result.append(index)

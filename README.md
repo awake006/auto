@@ -22,7 +22,7 @@ Take the value of the parameter group_id.
 example:
 
     -
-        name: 加入群
+        name: Join the group
         method: GET
         hope: success
         url: api/group/join
@@ -32,7 +32,7 @@ example:
             user_id: 2
         }
     -
-        name: 创建比赛
+        name: Create a match
         method: POST
         type: file
         hope: sucess

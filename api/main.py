@@ -65,7 +65,7 @@ def main():
     '''
     Test main function entry
     '''
-    # 读取命令行参数
+    # Read command line arguments
     opts = parse_options()
     host = opts.host
     case_no = opts.case
@@ -76,7 +76,7 @@ def main():
         create()
         print("Create template successfully")
         sys.exit()
-    # 日志文件配置
+    # Log file configuration
     path = os.getcwd()
     log_dir = os.path.join(path, 'log')
     if not os.path.exists(log_dir):
@@ -84,7 +84,7 @@ def main():
     log_filename = str(time.strftime("%Y%m%d%H%M%S", time.localtime())) + '.log'
     log_path = os.path.join(log_dir, log_filename)
     logger = log_init(log_path)
-    # 用例、配置导入
+    # Use case, configuration import
     if not case_dir:
         case_dir = PATH(os.path.join(path, 'case'))
     import_case(case_dir)
@@ -92,10 +92,10 @@ def main():
         config_file = PATH(os.path.join(path, 'config/base_info.yaml'))
     config_data = operate_yaml(config_file)[0]
 
-    # 初始化测试
+    # Initialization test
     test = RunTest(config_data, host, case_no, logger)
     test_result = []
-    # 执行测试
+    # Execution test
     for index in sorted(test.case_no):
         message_info = "Executing use case[%s]...." % index
         console_logger.info(message_info)
@@ -111,7 +111,7 @@ def main():
             Count.fail += 1
         console_logger.info(message_info_case)
         test_result.append(case_result)
-    # 生成测试报告
+    # Generate test report
     if not os.path.exists(os.path.join(path, 'reports')):
         os.mkdir(os.path.join(path, 'reports'))
     report_path = PATH(os.path.join(path, 'reports'))
@@ -135,7 +135,7 @@ def create():
     config_templete = os.path.abspath(os.path.join(config_dir, 'config_templete.yaml'))
     with open(case_templete, 'w', encoding='utf-8') as f:
         case_str = r'''
-- name: 加入比赛
+- name: Join the competition
   method: POST
   type: file
   hope: $sucess
@@ -152,7 +152,7 @@ def create():
     longitude: '113.9401565012'
     latitude: '22.5496157178'
     address: shenzhen
-- name: 创建比赛
+- name: Create a match
   method: POST
   type: file
   hope: sucess
