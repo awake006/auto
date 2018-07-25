@@ -12,7 +12,7 @@ from api.log import console_logger
 
 def operate_json(path):
     '''
-    转化json文件为字典
+    Convert json file to dictionary
     '''
     try:
         with open(path, encoding="utf-8") as f:
@@ -25,7 +25,7 @@ def operate_json(path):
 
 def operate_yaml(path):
     '''
-    转化yaml文件为字典
+    Convert yaml file to dictionary
     '''
     try:
         with open(path, encoding="utf-8")as f:
@@ -37,8 +37,9 @@ def operate_yaml(path):
 
 
 def get_all_yaml(path):
-    '''获取所有yaml文件
-    @path:文件夹路径
+    '''
+    Get all yaml files
+        @path: folder path
     '''
     try:
         result = [os.path.join(path, filename) for filename in os.listdir(
@@ -51,7 +52,7 @@ def get_all_yaml(path):
 
 def import_case(path):
     '''
-    把用例导入到Case类
+    Import use cases into the Case class
     '''
     file = get_all_yaml(path)
     case_list = []
@@ -59,7 +60,7 @@ def import_case(path):
         case_list += operate_yaml(i)
     for case in case_list:
         Case.case[case.get('id')] = case
-    console_logger.info('用例导入完成')
+    console_logger.info('Use case import completed')
 
 
 def set_excel(result, path):
@@ -92,13 +93,13 @@ def set_excel(result, path):
     # 从about表格获取pie数据
     chart.add_series(
         {
-            'name': '接口测试报表图',
+            'name': 'Interface test report',
             'categories': '=about!$A$1:$B$1',
             'values': '=about!$A$2:$B$2',
             'points': [{'fill': {'color': 'red'}}, {'fill': {'color': 'green'}}, ],
         }
     )
-    chart.set_title({'name': '接口测试统计'})
+    chart.set_title({'name': 'Interface test statistics'})
     chart.set_style(3)
     sheet_about.insert_chart('A5', chart, {'x_offset': 25, 'y_offset': 10})
     workbook.close()

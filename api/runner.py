@@ -38,22 +38,21 @@ class RunTest(object):
 
     def _sign_in(self):
         '''
-        获取用户登录token
-        支持帐号登录可以写一个登录的方法
+        login
         '''
         url = urljoin(self.host, self.login_url)
         data = {'account': self.login_username, 'password': str(self.login_password)}
         json_data = json.dumps(data)
         response = requests.post(url=url, headers=self.headers, json=data)
         if response.status_code != 200:
-            message_error_login = '登录失败，请重新配置登录参数%s,%s' % (json_data, url)
+            message_error_login = 'Login failed, please reconfigure login parameters%s,%s' % (json_data, url)
             console_logger.error(message_error_login)
             sys.exit()
         return response.headers['token']
 
     def _format_file_param(self, index):
         '''
-        格式化文件上传的参数
+        Format file upload parameters
         '''
         data = {}
         try:
@@ -61,7 +60,7 @@ class RunTest(object):
             for key in params:
                 if isinstance(params.get(key), dict):
                     """
-                    字典，需要从别的接口获取数据
+                    Dictionary, need to get data from other interfaces
                     """
                     case_dict = params.get(key)
                     case_id = case_dict.get('id')
@@ -100,13 +99,13 @@ class RunTest(object):
             ApiParam.param[index] = data
             return data
         except (KeyError, FileNotFoundError) as e:
-            message_error_format_param = '用例%s参数设置有误，请检查参数文件[%s]' % (index, e)
+            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e)
             console_logger.error(message_error_format_param)
             sys.exit()
 
     def _format_param(self, index):
         '''
-        格式化获取参数
+        Formatting parameters
         '''
         data = {}
         try:
@@ -114,7 +113,7 @@ class RunTest(object):
             for key in params:
                 if isinstance(params.get(key), dict):
                     """
-                    字典，需要从别的接口获取数据
+                    Dictionary, need to get data from other interfaces
                     """
                     case_dict = params.get(key)
                     case_id = case_dict.get('id')
@@ -147,7 +146,7 @@ class RunTest(object):
             ApiParam.param[index] = data
             return data
         except KeyError as e:
-            message_error_format_param = '用例%s参数设置有误，请检查参数文件[%s]' % (index, e)
+            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e)
             console_logger.error(message_error_format_param)
             sys.exit()
 
@@ -156,7 +155,7 @@ class RunTest(object):
         return url, data
 
     def requests_case(self, request_type, index, method, urls):
-        '''执行一次http请求，返回结果'''
+        '''Execute an http request and return the result'''
         requests_dict = {
             'POST': lambda: self._post(request_type, index, urls),
             'GET': lambda: self._put(index, urls),
@@ -215,7 +214,7 @@ class RunTest(object):
 
     def _chenk_message(self, result, result_value, message):
         '''
-        获取一个用例的测试结果
+        Get test results for a use case
         '''
         result.append(message)
         result_message = result_value.get("msg")
@@ -252,10 +251,10 @@ class RunTest(object):
 
     def run_case(self, index):
         '''
-        运行一个请求
+        Run a request
         '''
         if index not in Case.case:
-            message_error_not_in_case = '用例[%s]不存在' % index
+            message_error_not_in_case = 'Use case [%s] does not exist' % index
             console_logger.error(message_error_not_in_case)
             sys.exit()
         index = int(index)
@@ -267,11 +266,11 @@ class RunTest(object):
         try:
             name, method, message, request_type, chenk_method, url = _get_case_data(index, result)
         except KeyError as e:
-            message_error_param = '用例%s参数设置有误，请检查参数文件[%s]' % (index, e)
+            message_error_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e)
             console_logger.error(message_error_param)
             sys.exit()
         urls = urljoin(self.host, url)
-        message_info_case = 'CASE:%s/NAME:%s/%s:%s' % (index, name, method, urls)
+        message_info_case = 'RUN CASE[%s]--NAME[%s]--[%s]--[%s]' % (index, name, method, urls)
         console_logger.info(message_info_case)
         response = self.requests_case(request_type, index, method, urls)
         if not isinstance(response, int):
@@ -279,13 +278,14 @@ class RunTest(object):
                 result_value = response.json()
                 is_pass = self.chenk(index, result, result_value, chenk_method, message)
             except json.JSONDecodeError as e:
-                result.append('返回结果不是json格式')
+                result.append('The result is not in json format')
                 result.append('status_code:%s' % response.status_code)
                 is_pass = False
         else:
-            result.append('用例[%s]执行失败' % response)
+            result.append('Use case [%s] failed to execute' % response)
             result.append('')
-            message_warning_case = '用例[%s]执行失败，无法构建用例[%s]参数，暂不执行该用例' % (response, index)
+            message_warning_case = 'The use case [%s] failed to execute, the use case [%s] parameter could not be built, and the use case was not executed yet.' % (
+                response, index)
             self.logger.warning(message_warning_case)
             console_logger.warning(message_warning_case)
             is_pass = False
@@ -311,7 +311,7 @@ def _get_case_data(index, result):
 
 def _set_str(n, index):
     '''
-    随机生成n位的str
+    Randomly generate n-bit str
     '''
     try:
         n = int(n)
@@ -321,12 +321,12 @@ def _set_str(n, index):
             name += random.choice(source)
         return name
     except TypeError as e:
-        console_logger.error('用例%s参数设置有误，请检查参数文件[%s]' % (index, e))
+        console_logger.error('The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e))
         sys.exit()
 
 
 def _set_time():
-    '''时间，避免数据重复'''
+    '''strftime'''
     now_time = time.strftime("%Y%m%d%H%M%s", time.localtime())
     return now_time
 

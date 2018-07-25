@@ -7,5 +7,7 @@ case/*
 config/*
 dist/*
 debug.py
-_pycache/*
-api/_pycache/*
+__pycache__/*
+*/__pycache__/*
+api/case/*
+api/config/*

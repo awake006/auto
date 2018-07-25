@@ -27,31 +27,31 @@ def parse_options():
         dest='case',
         default=None,
         # action="store_false",
-        help='Run test case list,between case "," default get from config file'
+        help='Run a list of test cases, separated by ",", read from the configuration file by default'
     )
     parser.add_option(
         '-H', '--host',
         dest='host',
         default=None,
-        help='Run case host,default get from config file'
+        help='Run the test host, read from the configuration file by default'
     )
     parser.add_option(
         '-P', '--case-path',
         dest='case_dir',
         default=None,
-        help='Case dir abspath,default cmd-dir case'
+        help='Test case folder absolute path, default case folder under the execution folder'
     )
     parser.add_option(
         '-G', '--config-file',
         dest='config_file',
         default=None,
-        help='Config file abspath,default default cmd-dir config/base_info.yaml'
+        help='The absolute path of the configuration file, the config/base_info.yaml file under the default execution folder'
     )
     parser.add_option(
         '-T', '--create-templete',
         dest='create_templete',
         default=None,
-        help='Create templete'
+        help='Create test cases and configuration file templates, stored in the api folder under the execution folder'
     )
     opts, _ = parser.parse_args()
     return opts
@@ -63,7 +63,7 @@ def PATH(p):
 
 def main():
     '''
-    测试主函数入口
+    Test main function entry
     '''
     # 读取命令行参数
     opts = parse_options()
@@ -74,7 +74,7 @@ def main():
     is_create = opts.create_templete
     if is_create:
         create()
-        print("创建模板成功")
+        print("Create template successfully")
         sys.exit()
     # 日志文件配置
     path = os.getcwd()
@@ -97,16 +97,16 @@ def main():
     test_result = []
     # 执行测试
     for index in sorted(test.case_no):
-        message_info = "正在执行用例:%s...." % index
+        message_info = "Executing use case[%s]...." % index
         console_logger.info(message_info)
         case_result, is_pass = test.run_case(index)
         Count.total += 1
         if is_pass:
-            message_info_case = '用例[%s]执行成功' % index
+            message_info_case = 'Use case [%s] executed successfully' % index
             case_result.append("pass")
             Count.success += 1
         else:
-            message_info_case = '用例[%s]执行失败' % index
+            message_info_case = 'Use case [%s] failed to execute' % index
             case_result.append("fail")
             Count.fail += 1
         console_logger.info(message_info_case)
@@ -116,7 +116,7 @@ def main():
         os.mkdir(os.path.join(path, 'reports'))
     report_path = PATH(os.path.join(path, 'reports'))
     excel = set_excel(test_result, report_path)
-    message_info_excel = '执行完毕,通过[%s]查看测试结果' % excel
+    message_info_excel = 'Execution is complete, check the test results with [%s]' % excel
     console_logger.info(message_info_excel)
 
 
@@ -195,4 +195,3 @@ def create():
 
 if __name__ == "__main__":
     main()
-    create()

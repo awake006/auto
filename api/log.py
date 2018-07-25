@@ -11,8 +11,13 @@ def setup_logging(loglevel='INFO', logfile=None):
         raise ValueError("Invalid log level: %s" % loglevel)
 
     log_format = "[%(asctime)s] {0}/%(levelname)s/%(name)s: %(message)s".format(host)
+    # handler = logging.handlers.RotatingFileHandler(
+    #     filename=logfile, encoding='utf-8')
+    # formatter = logging.Formatter(log_format)
+    # handler.setFormatter(formatter)
+    # handler.setLevel(numeric_level)
+    # logging.addHandler(handler)
     logging.basicConfig(level=numeric_level, filename=logfile, format=log_format)
-    logging.FileHandler(filename=logfile, encoding='utf-8')
     sys.stderr = StdErrWrapper()
     sys.stdout = StdOutWrapper()
 

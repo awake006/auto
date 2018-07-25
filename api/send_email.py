@@ -19,8 +19,8 @@ def send_email(excel, email):
     msg = MIMEMultipart()
     msg['From'] = _format_addr('test_team <%s>' % email.get("from"))
     msg['To'] = _format_addr('en <%s>' % email.get("to_address"))
-    msg['Subject'] = "接口测试报告"
-    content = MIMEText("最新接口测试报告", 'plain', 'utf-8')
+    msg['Subject'] = "Interface test report"
+    content = MIMEText("Latest interface test report", 'plain', 'utf-8')
     msg.attach(content)
     basename = os.path.basename(excel)
     fp = open(excel, 'rb')
@@ -34,4 +34,4 @@ def send_email(excel, email):
     server.login(email.get("from"), email.get("password"))
     server.sendmail(email.get("from"), [email.get("to_address")], msg.as_string())
     server.quit()
-    console_logger.info('右键发送成功')
+    console_logger.info('Mail sent successfully')
