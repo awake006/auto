@@ -254,6 +254,10 @@ class RunTest(object):
         '''
         运行一个请求
         '''
+        if index not in Case.case:
+            message_error_not_in_case = '用例[%s]不存在' % index
+            console_logger.error(message_error_not_in_case)
+            sys.exit()
         index = int(index)
         is_login = Case.case[index].get('login')
         if is_login:
