@@ -17,9 +17,9 @@ class SelectMySQL(object):
         except err.OperationalError as e:
             raise e
 
-    def select_one(self, sql):
+    def select_one(self, select_one_sql):
         try:
-            self.cursor.execute(sql)
+            self.cursor.execute(select_one_sql)
             return self.cursor.fetchone()
         except err.InternalError as e:
             raise e
