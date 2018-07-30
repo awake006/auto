@@ -30,8 +30,8 @@ example:
         id: 1001
         params:
             img_id:
-            id: 1002  Get img_id from the use case result with case_id of 1002
-            value: img_id
+                id: 1002  Get img_id from the use case result with case_id of 1002
+                value: img_id
 
     - 
         name: post request
@@ -48,8 +48,8 @@ example:
             title: random (random number does not repeat)
             video_time: 20
             img_id:
-            id: 1002  
-            value: img_id
+                id: 1002  
+                value: img_id
 
     - 
         name: upload file
