@@ -8,6 +8,7 @@ from optparse import OptionParser
 from api.log import console_logger, setup_logging
 from api.data import Case
 import logging
+from api.create_example import create
 # from common.send_email import send_email
 
 
@@ -72,12 +73,14 @@ def main():
     case_dir = opts.case_dir
     config_file = opts.config_file
     is_create = opts.create_templete
+
+    path = os.getcwd()
+
     if is_create:
-        create()
+        create(path)
         print("Create template successfully")
         sys.exit()
     # Log file configuration
-    path = os.getcwd()
     log_dir = os.path.join(path, 'log')
     if not os.path.exists(log_dir):
         os.mkdir(log_dir)
@@ -118,79 +121,6 @@ def main():
     excel = set_excel(test_result, report_path)
     message_info_excel = 'Execution is complete, check the test results with [%s]' % excel
     console_logger.info(message_info_excel)
-
-
-def create():
-    path = os.getcwd()
-    base_dir = os.path.join(path, 'api')
-    if not os.path.exists(base_dir):
-        os.mkdir(base_dir)
-    case_dir = os.path.join(base_dir, 'case')
-    if not os.path.exists(case_dir):
-        os.mkdir(case_dir)
-    config_dir = os.path.join(base_dir, 'config')
-    if not os.path.exists(config_dir):
-        os.mkdir(config_dir)
-    case_templete = os.path.abspath(os.path.join(case_dir, 'case_templete.yaml'))
-    config_templete = os.path.abspath(os.path.join(config_dir, 'config_templete.yaml'))
-    with open(case_templete, 'w', encoding='utf-8') as f:
-        case_str = r'''
-- name: Join the competition
-  method: POST
-  type: file
-  hope: $sucess
-  url: api/work/store
-  id: 1003
-  params:
-    user_id: 3
-    contest_id:
-      id: 1004
-      value: contest_id
-    group_id:
-      id: 1002
-      value: group_id
-    longitude: '113.9401565012'
-    latitude: '22.5496157178'
-    address: shenzhen
-- name: Create a match
-  method: POST
-  type: file
-  hope: sucess
-  url: api/contest/store
-  id: 1004
-  params:
-    user_id: 3
-    group_id:
-      id: 1002
-      value: group_id
-    video: D:\video\20s.mp4
-    img: G:\picture\link.jpg
-    longitude: '113.9401565012'
-    latitude: '22.5496157178'
-    address: shenzhen
-    description: name
-    title: random
-    video_time: 20
-        '''
-        f.write(case_str)
-    with open(config_templete, 'w', encoding='utf-8')as f:
-        config_str = r'''
-- title: 
-  case_no: 
-  host:
-  db_username: 
-  db_password: 
-  db_host: 
-  db: 
-  login_url: 
-  login_username: 
-  login_password: 
-  headers:
-    Accept-Encoding: gzip;q=1.0,compress;q=0.5
-    Accept-Language: zh-Hans-CN;q=1.0,en-CN;q=0.9,zh-Hant-CN;q=0.8
-    User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
-        '''
-        f.write(config_str)
 
 
 if __name__ == "__main__":
