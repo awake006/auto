@@ -1,14 +1,15 @@
-import os
-import time
-import sys
-from api.data import Count
-from api.operate_file import operate_yaml, import_case, set_excel
-from api.runner import RunTest
-from optparse import OptionParser
-from api.log import console_logger, setup_logging
-from api.data import Case
 import logging
+import os
+import sys
+import time
+from optparse import OptionParser
+
 from api.create_example import create
+from api.data import Case, Count
+from api.log import console_logger, setup_logging
+from api.operate_file import import_case, operate_yaml, set_excel
+from api.runner import RunTest
+
 # from common.send_email import send_email
 
 

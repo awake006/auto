@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 import requests
 
 from api.connet_mysql import SelectMySQL
-from api.data import ApiParam, Case, CaseResult
+from api.data import ApiParam, Case, CaseResult, Index
 from api.log import console_logger
 
 
@@ -64,6 +64,7 @@ class RunTest(object):
                     """
                     case_dict = params.get(key)
                     case_id = case_dict.get('id')
+                    Index.case_id[index] = case_id
                     case_data = CaseResult.case_result.get(case_id)
                     if case_data:
                         case_result = case_data
@@ -72,7 +73,7 @@ class RunTest(object):
                         case_result = CaseResult.case_result.get(case_id)
 
                         if case_result:
-                            if type(case_result) != list:
+                            if not isinstance(case_result, list):
                                 v = case_result
                             else:
                                 v = case_result[0]
@@ -86,7 +87,7 @@ class RunTest(object):
                 elif params.get(key) == "random":
                     data[key] = (None, str(_set_time()))
 
-                elif key == "video":  
+                elif key == "video":
                     data[key] = ("video.mp4", open(
                         params.get(key), 'rb'), "video/mp4")
 
@@ -99,7 +100,8 @@ class RunTest(object):
             ApiParam.param[index] = data
             return data
         except (KeyError, FileNotFoundError) as e:
-            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e)
+            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
+                index, e)
             console_logger.error(message_error_format_param)
             sys.exit()
 
@@ -109,7 +111,9 @@ class RunTest(object):
         '''
         data = {}
         try:
-            params = Case.case.get(index)['params']
+            params = Case.case.get(index).get('params')
+            if not params:
+                return data
             for key in params:
                 if isinstance(params.get(key), dict):
                     """
@@ -117,6 +121,7 @@ class RunTest(object):
                     """
                     case_dict = params.get(key)
                     case_id = case_dict.get('id')
+                    Index.case_id[index] = case_id
                     case_data = CaseResult.case_result.get(case_id)
                     if case_data:
                         case_result = case_data
@@ -125,7 +130,7 @@ class RunTest(object):
                         case_result = CaseResult.case_result.get(case_id)
 
                         if case_result:
-                            if type(case_result) != list:
+                            if not isinstance(case_result, list):
                                 v = case_result
                             else:
                                 v = case_result[0]
@@ -146,13 +151,58 @@ class RunTest(object):
             ApiParam.param[index] = data
             return data
         except KeyError as e:
-            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e)
+            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
+                index, e)
             console_logger.error(message_error_format_param)
             sys.exit()
 
     def _format_put_or_delete(self, url, index):
         data = {}
-        return url, data
+        try:
+            params = Case.case.get(index).get('params')
+            if not params:
+                return data
+            for key in params:
+                if isinstance(params.get(key), dict):
+                    """
+                    Dictionary, need to get data from other interfaces
+                    """
+                    case_dict = params.get(key)
+                    case_id = case_dict.get('id')
+                    Index.case_id[index] = case_id
+                    case_data = CaseResult.case_result.get(case_id)
+                    if case_data:
+                        case_result = case_data
+                    else:
+                        self.run_case(case_id)
+                        case_result = CaseResult.case_result.get(case_id)
+
+                        if case_result:
+                            if not isinstance(case_result, list):
+                                v = case_result
+                            else:
+                                v = case_result[0]
+
+                            new_url = url % v.get(case_dict.get('value'))
+                        else:
+                            return int(case_id)
+
+                elif str(params.get(key)).split(',')[0] == 'str':
+                    data[key] = _set_str(params.get(key).split(',')[1], index)
+
+                elif params.get(key) == "random":
+                    data[key] = _set_time()
+
+                else:
+                    data[key] = params.get(key)
+
+            ApiParam.param[index] = data
+            return new_url, data
+        except KeyError as e:
+            message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
+                index, e)
+            console_logger.error(message_error_format_param)
+            sys.exit()
 
     def requests_case(self, request_type, index, method, urls):
         '''Execute an http request and return the result'''
@@ -266,7 +316,8 @@ class RunTest(object):
         try:
             name, method, message, request_type, chenk_method, url = _get_case_data(index, result)
         except KeyError as e:
-            message_error_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e)
+            message_error_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
+                index, e)
             console_logger.error(message_error_param)
             sys.exit()
         urls = urljoin(self.host, url)
@@ -290,13 +341,16 @@ class RunTest(object):
             console_logger.warning(message_warning_case)
             is_pass = False
         if is_pass:
-            CaseResult.case_result[index] = result_value.get('data')
+            if method != 'DELETE':
+                CaseResult.case_result[index] = result_value.get('data')
+            else:
+                CaseResult.case_result.pop(Index.case_id.get(index))
         return result, is_pass
 
 
 def _get_case_data(index, result):
     name = Case.case[index].get("name")
-    method = Case.case[index].get("method", "GET").upper() 
+    method = Case.case[index].get("method", "GET").upper()
     message = Case.case[index].get('message', 'success')
     request_type = Case.case[index].get("type")
     chenk_method = Case.case[index].get('chenk_method', 'message').upper()
@@ -320,7 +374,8 @@ def _set_str(n, index):
             name += random.choice(source)
         return name
     except TypeError as e:
-        console_logger.error('The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e))
+        console_logger.error(
+            'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e))
         sys.exit()
 
 

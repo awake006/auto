@@ -39,3 +39,7 @@ class ApiParam():
     }
     '''
     param = {}
+
+
+class Index():
+    case_id = {}
