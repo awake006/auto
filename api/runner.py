@@ -374,8 +374,9 @@ def _set_str(n, index):
             name += random.choice(source)
         return name
     except TypeError as e:
-        console_logger.error(
-            'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (index, e))
+        message_error_set_str = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
+            index, e)
+        console_logger.error(message_error_set_str)
         sys.exit()
 
 
