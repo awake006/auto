@@ -20,13 +20,13 @@ def create(path):
         case_str = r'''
 - name: get request
   method: GET
-  chenk_method: db  校验请求参数是否与数据库存储的结果一致
+  chenk_method: db  Verify that the request parameters are consistent with the results stored in the database
   sql: select * from table where img_id=%s,img_id
   url: api/get/example
   id: 1001
   params:
     img_id:
-      id: 1002  从case_id为1002的用例结果中获取img_id
+      id: 1002  Get img_id from the use case result with case_id of 1002
       value: img_id
         '''
         f.write(case_str)
@@ -35,24 +35,24 @@ def create(path):
 - name: post request
   method: POST
   type: file
-  chenk_method: db  校验请求参数是否与数据库存储的结果一致
+  chenk_method: db  Verify that the request parameters are consistent with the results stored in the database
   sql: select * from table where contest_id=100 
   url: api/post/example
   id: 1001
   params:
     contest_id: 100
     address: shenzhen
-    description: str,20 (长度为20的字符串)
-    title: random (随机不重复数字)
+    description: str,20 (a string of length 20)
+    title: random (random number does not repeat)
     video_time: 20
     img_id:
-      id: 1002  从case_id为1002的用例结果中获取img_id
+      id: 1002  Get img_id from the use case result with case_id of 1002
       value: img_id
 
 - name: upload file
   method: POST
-  type: file  文件上传标识，不为空时表示该用例为文件上传
-  chenk_method: message 校验返回值的message为success  
+  type: file  File upload identifier, when not empty, indicates that the use case is a file upload
+  chenk_method: message Verify that the value of the return value is success 
   message: sucess
   url: api/upload/file
   id: 1002
@@ -72,11 +72,11 @@ def create(path):
   params:
     contest_id: 100
     address: shenzhen
-    description: str,20 (长度为20的字符串)
-    title: random (随机不重复数字)
+    description: str,20 (a string of length 20)
+    title: random (random number does not repeat)
     video_time: 20
     img_id:
-      id: 1002  从case_id为1002的用例结果中获取img_id
+      id: 1002  Get img_id from the use case result with case_id of 1002
       value: img_id
         '''
         f.write(case_str)
@@ -91,11 +91,11 @@ def create(path):
   params:
     contest_id: 100
     address: shenzhen
-    description: str,20 (长度为20的字符串)
-    title: random (随机不重复数字)
+    description: str,20 (a string of length 20)
+    title: random (random number does not repeat)
     video_time: 20
     img_id:
-      id: 1002  从case_id为1002的用例结果中获取img_id
+      id: 1002  Get img_id from the use case result with case_id of 1002
       value: img_id
         '''
         f.write(case_str)
