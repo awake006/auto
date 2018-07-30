@@ -15,7 +15,7 @@ def create(path):
     post_example = os.path.abspath(os.path.join(case_dir, 'post_example.yaml'))
     put_example = os.path.abspath(os.path.join(case_dir, 'put_example.yaml'))
     delete_example = os.path.abspath(os.path.join(case_dir, 'delete_example.yaml'))
-    config_templete = os.path.abspath(os.path.join(config_dir, 'config_templete.yaml'))
+    config_template = os.path.abspath(os.path.join(config_dir, 'config_template.yaml'))
     with open(get_example, 'w', encoding='utf-8') as f:
         case_str = r'''
 - name: get request
@@ -99,7 +99,7 @@ def create(path):
       value: img_id
         '''
         f.write(case_str)
-    with open(config_templete, 'w', encoding='utf-8')as f:
+    with open(config_template, 'w', encoding='utf-8')as f:
         config_str = r'''
 - title: 
   case_no: 

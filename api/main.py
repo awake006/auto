@@ -50,8 +50,8 @@ def parse_options():
         help='The absolute path of the configuration file, the config/base_info.yaml file under the default execution folder'
     )
     parser.add_option(
-        '-T', '--create-templete',
-        dest='create_templete',
+        '-T', '--create-template',
+        dest='create_template',
         default=None,
         help='Create test cases and configuration file templates, stored in the api folder under the execution folder'
     )
