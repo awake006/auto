@@ -39,7 +39,19 @@ class ApiParam():
     '''
     Submit parameter storage for verification results with the database 
     {
-        case_id:[{key:value},{key:value}],case_id1:{key:value},
+        case_id:[
+            {
+                key:value
+            },
+            {
+                key:value
+            }
+                ]
+            ,
+        case_id1:
+                {
+                key:value
+                },
     }
     '''
     param = {}
