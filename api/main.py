@@ -73,7 +73,7 @@ def main():
     case_no = opts.case
     case_dir = opts.case_dir
     config_file = opts.config_file
-    is_create = opts.create_templete
+    is_create = opts.create_template
 
     path = os.getcwd()
 
