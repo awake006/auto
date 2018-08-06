@@ -24,8 +24,12 @@ class CaseResult(object):
     '''
     Use case result parameter storage for other use case calls  
     {
-        case_id1:{response:info,data:{key:value}},
-        case_id2:{response:info,data:[{key:value},{key:value}]}
+        case_id1:{
+            response:info,data:{key:value}
+            },
+        case_id2:{
+            response:info,data:[{key:value},{key:value}]
+            }
     }
     '''
     case_result = {}
