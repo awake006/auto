@@ -58,3 +58,12 @@ testcase_parameter = {}
 testcase_id = {}
 
 token = ''
+header = {}
+host = ''
+
+
+class DB:
+    host = ''
+    username = ''
+    password = ''
+    db = ''

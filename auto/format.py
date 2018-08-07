@@ -104,7 +104,7 @@ def format_put_delete(url, testcase_id):
                 """
                 testcase_dict = parameter.get(key)
                 old_case_id = testcase_dict.get('id')
-                global_data.old_case_id[testcase_id] = old_case_id
+                global_data.testcase_id[testcase_id] = old_case_id
                 testcase_result = global_data.testcase_result.get(old_case_id)
                 if not testcase_result:
                     testcase_result = global_data.testcase_result.get(old_case_id)
