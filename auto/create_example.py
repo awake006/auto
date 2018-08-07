@@ -2,7 +2,7 @@ import os
 
 
 def create(path):
-    base_dir = os.path.join(path, 'api')
+    base_dir = os.path.join(path, 'auto')
     if not os.path.exists(base_dir):
         os.mkdir(base_dir)
     case_dir = os.path.abspath(os.path.join(base_dir, 'case/case-example'))
@@ -24,7 +24,7 @@ def create(path):
   sql: select * from table where img_id=%s,img_id
   url: api/get/example
   id: 1001
-  params:
+  parameter:
     img_id:
       id: 1002  Get img_id from the use case result with case_id of 1002
       value: img_id
@@ -39,7 +39,7 @@ def create(path):
   sql: select * from table where contest_id=100 
   url: api/post/example
   id: 1001
-  params:
+  parameter:
     contest_id: 100
     address: shenzhen
     description: str,20 (a string of length 20)
@@ -56,7 +56,7 @@ def create(path):
   message: sucess
   url: api/upload/file
   id: 1002
-  params:
+  parameter:
     name: random
     img: file abspath
         '''
@@ -69,7 +69,7 @@ def create(path):
   message: success
   url: api/put/example/%s,img_id
   id: 1003
-  params:
+  parameter:
     contest_id: 100
     address: shenzhen
     description: str,20 (a string of length 20)
@@ -88,7 +88,7 @@ def create(path):
   message: success
   url: api/delete/example/%s,img_id
   id: 1004
-  params:
+  parameter:
     contest_id: 100
     address: shenzhen
     description: str,20 (a string of length 20)

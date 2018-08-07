@@ -36,9 +36,9 @@ class SelectMySQL(object):
             self.db.close()
 
 
-if __name__ == "__main__":
-    db = SelectMySQL("localhost", 'root', '12346', 'test')
-    sql = "SELECT * FROM user"
-    db.connect()
-    result = db.select_all(sql)
-    print(result)
+# if __name__ == "__main__":
+#     db = SelectMySQL("localhost", 'root', '12346', 'test')
+#     sql = "SELECT * FROM user"
+#     db.connect()
+#     result = db.select_all(sql)
+#     print(result)

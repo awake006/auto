@@ -13,15 +13,15 @@ with open(_init_file, 'rb') as f:
 
 
 setup(
-    name="api", 
+    name="auto",
     version=version,
-    author="xiaoming",
+    author="awake006",
     author_email="hietel366435@163.com",
-    description="Test API",
-    license="GPLv3",
-    keywords="TEST API",
-    url="https://github.com/awake006/APIAutoTest",
-    packages=['api'],
+    description="Interface automation test tool",
+    license="MIT",
+    keywords="",
+    url="https://github.com/awake006/auto",
+    packages=['auto'],
     install_requires=[
         'XlsxWriter>=0.9.8',
         'setuptools>=28.8.0',
@@ -33,15 +33,19 @@ setup(
 
 
     entry_points={'console_scripts': [
-        'api = api.main:main',
+        'auto = auto.main:main',
     ]},
 
-    classifiers=[  
-        "Development Status :: 3 - Alpha",
-        "Topic :: Utilities",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
+    classifiers=[
+        "Topic :: Software Development :: Testing :: Traffic Generation",
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Intended Audience :: Developers",
+        "Intended Audience :: System Administrators",
     ],
     zip_safe=False
 )

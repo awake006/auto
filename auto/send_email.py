@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formataddr, parseaddr
 
-from api.log import console_logger
+from auto.log import console_logger
 
 
 def _format_addr(s):
