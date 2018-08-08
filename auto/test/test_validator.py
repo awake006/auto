@@ -1,4 +1,4 @@
-from auto.validate import *
+from auto.validator import *
 import unittest
 
 
