@@ -1,7 +1,31 @@
 import os
+from auto.build_data import get_case_data
+from auto import global_data
 
 
-def create(path):
+def create_script(script_file):
+
+    with open(script_file, 'w', encoding='UTF-8')as f:
+        code = '''import unittest
+
+from auto.runner import run
+
+
+class RunnerTest(unittest.TestCase):
+
+'''
+        for testcase_id in global_data.testcase.keys():
+            case_name, function_name, *_ = get_case_data(testcase_id)
+            add_code = '''
+    def test_%s(self):
+        """%s-%s"""
+        run(%s)
+''' % (function_name, testcase_id, case_name, testcase_id)
+            code += add_code
+        f.write(code)
+
+
+def create_example(path):
     base_dir = os.path.join(path, 'auto')
     if not os.path.exists(base_dir):
         os.mkdir(base_dir)
@@ -19,6 +43,7 @@ def create(path):
     with open(get_example, 'w', encoding='utf-8') as f:
         case_str = r'''
 - name: get request
+  function: function_name
   method: GET
   chenk_method: db  Verify that the request parameters are consistent with the results stored in the database
   sql: select * from table where img_id=%s,img_id
@@ -33,6 +58,7 @@ def create(path):
     with open(post_example, 'w', encoding='utf-8') as f:
         case_str = r'''
 - name: post request
+  function: function_name
   method: POST
   type: file
   chenk_method: db  Verify that the request parameters are consistent with the results stored in the database
@@ -50,6 +76,7 @@ def create(path):
       value: img_id
 
 - name: upload file
+  function: function_name
   method: POST
   type: file  File upload identifier, when not empty, indicates that the use case is a file upload
   chenk_method: message Verify that the value of the return value is success 
@@ -64,6 +91,7 @@ def create(path):
     with open(put_example, 'w', encoding='utf-8') as f:
         case_str = r'''
 - name: put request
+  function: function_name
   method: PUT
   chenk_method: message
   message: success
@@ -83,6 +111,7 @@ def create(path):
     with open(delete_example, 'w', encoding='utf-8') as f:
         case_str = r'''
 - name: delete request
+  function: function_name
   method: delete
   chenk_method: message
   message: success
@@ -118,6 +147,8 @@ def create(path):
         '''
         f.write(config_str)
 
-# if __name__ == "__main__":
-#     path = os.getcwd()
-#     create(path)
+
+def create_():
+    from auto.operate_file import conversion_case
+    conversion_case(r'D:\python_code\auto\case\yaml')
+    create_script(r'D:\python_code\auto\case\script\test_all.py')

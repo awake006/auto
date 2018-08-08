@@ -58,8 +58,8 @@ testcase_parameter = {}
 testcase_id = {}
 
 token = ''
-header = {}
-host = ''
+headers = {}
+host = 'http://www.baidu.com'
 
 
 class DB:

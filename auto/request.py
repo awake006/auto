@@ -20,13 +20,13 @@ def _post(request_type, testcase_id, url):
     if request_type:
         files = format_file_parameters(testcase_id)
         if isinstance(files, dict):
-            response = requests.post(headers=global_data.header, url=url, files=files)
+            response = requests.post(headers=global_data.headers, url=url, files=files)
         else:
             response = files
     else:
         data = format_parameter(testcase_id)
         if isinstance(data, dict):
-            response = requests.post(headers=global_data.header, url=url, json=data)
+            response = requests.post(headers=global_data.headers, url=url, json=data)
         else:
             response = data
     return response
@@ -35,16 +35,19 @@ def _post(request_type, testcase_id, url):
 def _get(testcase_id, url):
     data = format_parameter(testcase_id)
     if isinstance(data, dict):
-        response = requests.get(headers=global_data.header, url=url, params=data)
+        response = requests.get(headers=global_data.headers, url=url, params=data)
     else:
         response = data
     return response
 
 
 def _put(testcase_id, url):
-    url, data = format_put_delete(url, testcase_id)
+    result = format_put_delete(url, testcase_id)
+    if not isinstance(result, tuple):
+        return result
+    url, data = result
     if isinstance(data, dict):
-        response = requests.put(headers=global_data.header, url=url, json=data)
+        response = requests.put(headers=global_data.headers, url=url, json=data)
     else:
         response = data
     return response
@@ -53,7 +56,7 @@ def _put(testcase_id, url):
 def _delete(testcase_id, url):
     url, data = format_put_delete(url, testcase_id)
     if isinstance(data, dict):
-        response = requests.delete(headers=global_data.header, url=url, json=data)
+        response = requests.delete(headers=global_data.headers, url=url, json=data)
     else:
         response = data
     return response

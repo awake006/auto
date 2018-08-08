@@ -15,7 +15,7 @@ def format_file_parameters(testcase_id):
                 """
                 testcase_dict = parameter.get(key)
                 old_case_id = testcase_dict.get('id')
-                global_data.old_case_id[testcase_id] = old_case_id
+                global_data.testcase_id[testcase_id] = old_case_id
                 testcase_result = global_data.testcase_result.get(old_case_id)
                 if not testcase_result:
                     testcase_result = global_data.testcase_result.get(old_case_id)
@@ -49,7 +49,7 @@ def format_file_parameters(testcase_id):
         message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
             testcase_id, e)
         console_logger.error(message_error_format_param)
-        sys.exit()
+        raise e
 
 
 def format_parameter(testcase_id):
@@ -63,7 +63,7 @@ def format_parameter(testcase_id):
                 """
                 testcase_dict = parameter.get(key)
                 old_case_id = testcase_dict.get('id')
-                global_data.old_case_id[testcase_id] = old_case_id
+                global_data.testcase_id[testcase_id] = old_case_id
                 testcase_result = global_data.testcase_result.get(old_case_id)
                 if not testcase_result:
                     testcase_result = global_data.testcase_result.get(old_case_id)
@@ -90,7 +90,7 @@ def format_parameter(testcase_id):
         message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
             testcase_id, e)
         console_logger.error(message_error_format_param)
-        sys.exit()
+        raise e
 
 
 def format_put_delete(url, testcase_id):
@@ -131,4 +131,4 @@ def format_put_delete(url, testcase_id):
         message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
             testcase_id, e)
         console_logger.error(message_error_format_param)
-        sys.exit()
+        raise e

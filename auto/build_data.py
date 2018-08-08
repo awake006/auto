@@ -33,3 +33,14 @@ def set_time():
 def get_case_id():
     testcase_id = [i for i in global_data.testcase.keys() if i != '']
     return testcase_id
+
+
+def get_case_data(testcase_id):
+    name = global_data.testcase[testcase_id].get("name")
+    function_name = global_data.testcase[testcase_id].get('function')
+    method = global_data.testcase[testcase_id].get("method", "GET").upper()
+    message = global_data.testcase[testcase_id].get('message', 'success')
+    request_type = global_data.testcase[testcase_id].get("type")
+    chenk_method = global_data.testcase[testcase_id].get('chenk_method', 'message').upper()
+    url = global_data.testcase[testcase_id].get('url')
+    return name, function_name, method, message, request_type, chenk_method, url
