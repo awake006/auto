@@ -1,10 +1,13 @@
 import os
-from auto.build_data import get_case_data
-from auto import global_data
+from auto.build_data import get_case_data, get_case_id_list
 
 
-def create_script(script_file):
-
+def create_script(script_file, testcase_id_list):
+    if not testcase_id_list:
+        testcase_id_list = get_case_id_list()
+    else:
+        testcase_id_list = testcase_id_list.split(',')
+        testcase_id_list = [i for i in testcase_id_list if i != '']
     with open(script_file, 'w', encoding='UTF-8')as f:
         code = '''import unittest
 
@@ -14,7 +17,7 @@ from auto.runner import run
 class RunnerTest(unittest.TestCase):
 
 '''
-        for testcase_id in global_data.testcase.keys():
+        for testcase_id in testcase_id_list:
             case_name, function_name, *_ = get_case_data(testcase_id)
             add_code = '''
     def test_%s(self):
@@ -146,9 +149,3 @@ def create_example(path):
     User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
         '''
         f.write(config_str)
-
-
-def create_():
-    from auto.operate_file import conversion_case
-    conversion_case(r'D:\python_code\auto\case\yaml')
-    create_script(r'D:\python_code\auto\case\script\test_all.py')

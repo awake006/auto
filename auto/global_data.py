@@ -1,17 +1,4 @@
 # data storage
-class TestCount:
-    '''
-    Use case results statistics
-    result: 
-    case
-    '''
-    success = 0
-    fail = 0
-    total = 0
-    result = {}
-
-
-# class TestCase:
 '''
 Use case storage{
     case_id1:{caseinfo:info,prarm:{key1:[value0,value1],key2:value2}},
@@ -19,8 +6,6 @@ Use case storage{
 }
 '''
 testcase = {}
-
-
 '''
 Use case result parameter storage for other use case calls  
 {
@@ -33,8 +18,6 @@ Use case result parameter storage for other use case calls
 }
 '''
 testcase_result = {}
-
-
 '''
 Submit parameter storage for verification results with the database 
 {
@@ -54,12 +37,11 @@ Submit parameter storage for verification results with the database
 }
 '''
 testcase_parameter = {}
-
 testcase_id = {}
 
 token = ''
 headers = {}
-host = 'http://www.baidu.com'
+host = ''
 
 
 class DB:
@@ -67,3 +49,15 @@ class DB:
     username = ''
     password = ''
     db = ''
+
+
+class TestCount:
+    '''
+    Use case results statistics
+    result: 
+    case
+    '''
+    success = 0
+    fail = 0
+    total = 0
+    result = {}

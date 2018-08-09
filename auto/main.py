@@ -1,11 +1,15 @@
-from auto.log import setup_logging, console_logger
 import logging
 import os
-from auto.cli_param import parse_options
-import time
 import sys
-from auto.operate_file import conversion_case, operate_yaml
-from auto.create import create_example
+import time
+import unittest
+
+from auto import global_data
+from auto.cli_param import parse_options
+from auto.create import *
+from auto.log import setup_logging, console_logger
+from auto.operate_file import *
+from auto.runhtml import HTMLTestRunner
 
 
 def log_init(path_p):
@@ -21,6 +25,20 @@ def PATH(p):
     return os.path.abspath(p)
 
 
+def loading_data(testcase_dir, config_file):
+    conversion_case(testcase_dir)
+    config_data = operate_yaml(config_file)[0]
+    global_data.host = config_data.get('host')
+    global_data.headers = config_data.get('headers')
+    global_data.token = config_data.get('token')
+    global_data.DB.db = config_data.get('db')
+    global_data.DB.host = config_data.get('db_host')
+    global_data.DB.username = config_data.get('db_username')
+    global_data.DB.password = config_data.get('db_password')
+    testcase_id_list = config_data.get('case_id_list')
+    return testcase_id_list
+
+
 def main():
     '''
     Test main function entry
@@ -28,11 +46,7 @@ def main():
     # Read command line arguments
     opts = parse_options()
     host = opts.host
-    case_no = opts.case
-    case_dir = opts.case_dir
-    config_file = opts.config_file
     is_create = opts.create_template
-
     path = os.getcwd()
 
     if is_create:
@@ -40,26 +54,28 @@ def main():
         print("Create template successfully")
         sys.exit()
     # Log file configuration
-    log_dir = os.path.join(path, 'log')
+    log_dir = PATH(os.path.join(path, 'log'))
     if not os.path.exists(log_dir):
         os.mkdir(log_dir)
     log_filename = str(time.strftime("%Y%m%d%H%M%S", time.localtime())) + '.log'
-    log_path = os.path.join(log_dir, log_filename)
+    log_path = PATH(os.path.join(log_dir, log_filename))
     log_init(PATH(log_path))
     # Use case, configuration import
-    if not case_dir:
-        case_dir = PATH(os.path.join(path, 'case/yaml'))
-    conversion_case(case_dir)
-    if not config_file:
-        config_file = PATH(os.path.join(path, 'config/config.yaml'))
-    config_data = operate_yaml(config_file)[0]
-
-    # Initialization test
-
+    case_dir = PATH(os.path.join(path, 'case/yaml'))
+    config_file = PATH(os.path.join(path, 'config/config.yaml'))
+    if host and (host == 'test'):
+        config_file = PATH(os.path.join(path, 'config/test_config.yaml'))
+    testcase_id_list = loading_data(case_dir, config_file)
+    script_dir = PATH(os.path.join(path, 'case/script'))
+    script_file = PATH(os.path.join(script_dir, 'test_allcase.py'))
+    create_script(script_file, testcase_id_list)
     # Generate test report
-    if not os.path.exists(os.path.join(path, 'reports')):
-        os.mkdir(os.path.join(path, 'reports'))
-    report_path = PATH(os.path.join(path, 'reports'))
+    suit = unittest.TestSuite()
+    discover = unittest.defaultTestLoader.discover(script_dir, pattern='test_*')
+    for i in discover:
+        suit.addTest(i)
+    runner = HTMLTestRunner(output='reports',)
+    runner.run(suit)
 
 
 if __name__ == "__main__":

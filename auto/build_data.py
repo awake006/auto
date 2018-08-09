@@ -30,9 +30,9 @@ def set_time():
     return now_time
 
 
-def get_case_id():
-    testcase_id = [i for i in global_data.testcase.keys() if i != '']
-    return testcase_id
+def get_case_id_list():
+    testcase_id_list = [i for i in global_data.testcase.keys() if i != '']
+    return testcase_id_list
 
 
 def get_case_data(testcase_id):
