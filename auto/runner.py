@@ -35,5 +35,5 @@ def run(testcase_id):
     if method == 'DELETE':
         global_data.testcase_result.pop(global_data.testcase_id.get(testcase_id))
     else:
-        global_data.testcase_result[testcase_id] = testcase_response.get('data')
+        global_data.testcase_result[testcase_id] = testcase_response_json.get('data')
     return True

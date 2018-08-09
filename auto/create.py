@@ -1,4 +1,7 @@
 import os
+import sys
+
+from auto import global_data
 from auto.build_data import get_case_data, get_case_id_list
 
 
@@ -8,6 +11,7 @@ def create_script(script_file, testcase_id_list):
     else:
         testcase_id_list = testcase_id_list.split(',')
         testcase_id_list = [i for i in testcase_id_list if i != '']
+    testcase_id_list.sort()
     with open(script_file, 'w', encoding='UTF-8')as f:
         code = '''import unittest
 
@@ -18,6 +22,8 @@ class RunnerTest(unittest.TestCase):
 
 '''
         for testcase_id in testcase_id_list:
+            if testcase_id not in global_data.testcase:
+                sys.exit()
             case_name, function_name, *_ = get_case_data(testcase_id)
             add_code = '''
     def test_%s(self):
