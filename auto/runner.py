@@ -31,7 +31,8 @@ def run(testcase_id):
         raise exception.ReturnFormatException(testcase_response.text)
 
     result = chenk(testcase_id, testcase_response_json, chenk_method, message)
-    assert result is True
+    if not result:
+        raise exception.CaseFailException('case fail')
     if method == 'DELETE':
         global_data.testcase_result.pop(global_data.testcase_id.get(testcase_id))
     else:

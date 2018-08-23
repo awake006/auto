@@ -15,3 +15,7 @@ class ResponseErr(Exception):
 
 class ReturnFormatException(Exception):
     pass
+
+
+class CaseFailException(Exception):
+    pass

@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import unittest
+from xmlrunner import XMLTestRunner
 
 from auto import global_data
 from auto.cli_param import parse_options
@@ -25,12 +26,14 @@ def PATH(p):
     return os.path.abspath(p)
 
 
-def loading_data(testcase_dir, config_file):
+def loading_data(testcase_dir, config_file, token):
     conversion_case(testcase_dir)
     config_data = operate_yaml(config_file)[0]
     global_data.host = config_data.get('host')
     global_data.headers = config_data.get('headers')
     global_data.token = config_data.get('token')
+    if token:
+        global_data.token = token
     global_data.DB.db = config_data.get('db')
     global_data.DB.host = config_data.get('db_host')
     global_data.DB.username = config_data.get('db_username')
@@ -47,6 +50,8 @@ def main():
     opts = parse_options()
     host = opts.host
     is_create = opts.create_template
+    report_format = opts.format
+    token = opts.token
     path = os.getcwd()
 
     if is_create:
@@ -65,7 +70,7 @@ def main():
     config_file = PATH(os.path.join(path, 'config/config.yaml'))
     if host and (host == 'test'):
         config_file = PATH(os.path.join(path, 'config/test_config.yaml'))
-    testcase_id_list = loading_data(case_dir, config_file)
+    testcase_id_list = loading_data(case_dir, config_file, token)
     script_dir = PATH(os.path.join(path, 'case/script'))
     script_file = PATH(os.path.join(script_dir, 'test_allcase.py'))
     create_script(script_file, testcase_id_list)
@@ -74,7 +79,9 @@ def main():
     discover = unittest.defaultTestLoader.discover(script_dir, pattern='test_*')
     for i in discover:
         suit.addTest(i)
-    runner = HTMLTestRunner(output='reports',)
+    runner = HTMLTestRunner(output='reports')
+    if report_format and (report_format == 'xml' or report_format == 'XML'):
+        runner = XMLTestRunner(output='reports')
     runner.run(suit)
 
 
