@@ -6,7 +6,7 @@ from setuptools import setup
 
 # parse version from api / __init__.py
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
-_init_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "api", "__init__.py")
+_init_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "auto", "__init__.py")
 with open(_init_file, 'rb') as f:
     version = str(ast.literal_eval(_version_re.search(
         f.read().decode('utf-8')).group(1)))
@@ -23,12 +23,12 @@ setup(
     url="https://github.com/awake006/auto",
     packages=['auto'],
     install_requires=[
-        'XlsxWriter>=0.9.8',
         'setuptools>=28.8.0',
         'lxml>=4.1.1',
         'PyMySQL>=0.8.1',
         'PyYAML>=3.12',
         'requests>=2.13.0',
+        'xmlrunner>=1.7.7',
     ],
 
 

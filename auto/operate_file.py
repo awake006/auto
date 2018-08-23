@@ -6,7 +6,6 @@ import yaml
 
 from auto import global_data
 from auto.log import console_logger
-from auto import validator
 from auto import exception
 
 
