@@ -6,6 +6,8 @@ import yaml
 
 from auto import global_data
 from auto.log import console_logger
+from auto import validator
+from auto import exception
 
 
 def operate_json(path):
@@ -57,8 +59,20 @@ def conversion_case(path):
     for i in file:
         testcase_list += operate_yaml(i)
     for testcase in testcase_list:
-        global_data.testcase[testcase.get('id')] = testcase
+        if testcase and chenk_case(testcase):
+            global_data.testcase[testcase.get('id')] = testcase
     console_logger.info('Test case conversion completed')
+
+
+def chenk_case(case_dict):
+    case_required_data = ['name', 'function', 'id', 'url']
+    for data in case_required_data:
+        if data not in case_dict.keys():
+            msg = 'case[%s] error' % data.get('id')
+            console_logger.error(msg)
+            raise exception.CaseRequiredDataException(msg)
+    return True
+
 
 if __name__ == "__main__":
     print(get_all_yaml(r"case/"))

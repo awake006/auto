@@ -19,3 +19,7 @@ class ReturnFormatException(Exception):
 
 class CaseFailException(Exception):
     pass
+
+
+class CaseRequiredDataException(Exception):
+    pass
