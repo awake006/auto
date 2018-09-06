@@ -85,12 +85,11 @@ def format_parameter(testcase_id):
                 data[key] = parameter.get(key)
 
         global_data.testcase_parameter[testcase_id] = data
-        return data
     except (KeyError, FileNotFoundError) as e:
-        message_error_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
+        message_info_format_param = 'The use case [%s] parameter setting is incorrect, please check the parameter file [%s]' % (
             testcase_id, e)
-        console_logger.error(message_error_format_param)
-        raise e
+        console_logger.info(message_info_format_param)
+    return data
 
 
 def format_put_delete(url, testcase_id):

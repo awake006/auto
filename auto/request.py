@@ -1,8 +1,8 @@
 import requests
 
 from auto import global_data
-from auto.format import (format_file_parameters, format_parameter,
-                         format_put_delete)
+from auto.formater import (format_file_parameters, format_parameter,
+                           format_put_delete)
 
 
 def request(request_type, testcase_id, method, url):

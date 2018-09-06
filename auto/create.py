@@ -54,7 +54,7 @@ def create_example(path):
 - name: get request
   function: function_name
   method: GET
-  chenk_method: db  Verify that the request parameters are consistent with the results stored in the database
+  check_method: db  Verify that the request parameters are consistent with the results stored in the database
   sql: select * from table where img_id=%s,img_id
   url: api/get/example
   id: 1001
@@ -70,7 +70,7 @@ def create_example(path):
   function: function_name
   method: POST
   type: file
-  chenk_method: db  Verify that the request parameters are consistent with the results stored in the database
+  check_method: db  Verify that the request parameters are consistent with the results stored in the database
   sql: select * from table where contest_id=100 
   url: api/post/example
   id: 1001
@@ -88,7 +88,7 @@ def create_example(path):
   function: function_name
   method: POST
   type: file  File upload identifier, when not empty, indicates that the use case is a file upload
-  chenk_method: message Verify that the value of the return value is success 
+  check_method: message Verify that the value of the return value is success 
   message: sucess
   url: api/upload/file
   id: 1002
@@ -102,7 +102,7 @@ def create_example(path):
 - name: put request
   function: function_name
   method: PUT
-  chenk_method: message
+  check_method: message
   message: success
   url: api/put/example/%s,img_id
   id: 1003
@@ -122,7 +122,7 @@ def create_example(path):
 - name: delete request
   function: function_name
   method: delete
-  chenk_method: message
+  check_method: message
   message: success
   url: api/delete/example/%s,img_id
   id: 1004

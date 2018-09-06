@@ -3,17 +3,17 @@ from auto import global_data
 from auto.global_data import DB
 
 
-def chenk(testcase_id, response, chenk_method, message):
-    chenks = {
-        'MESSAGE': lambda: _chenk_message(response, message),
-        'DB': lambda: _chenk_db(testcase_id),
-        'STATUS': lambda: _chenk_status(200),
+def check(testcase_id, response, check_method, message):
+    checks = {
+        'MESSAGE': lambda: _check_message(response, message),
+        'DB': lambda: _check_db(testcase_id),
+        'STATUS': lambda: _check_status(200),
 
     }
-    return chenks[chenk_method]()
+    return checks[check_method]()
 
 
-def _chenk_message(response, message):
+def _check_message(response, message):
     '''
     Get test results for a use case
     '''
@@ -24,7 +24,7 @@ def _chenk_message(response, message):
         return False
 
 
-def _chenk_db(testcase_id):
+def _check_db(testcase_id):
     sql = global_data.testcase[testcase_id].get('sql')
     if '%' in sql:
         for value in global_data.testcase_parameter.get(testcase_id).values():
@@ -45,5 +45,5 @@ def _chenk_db(testcase_id):
     return True
 
 
-def _chenk_status(status):
+def _check_status(status):
     pass

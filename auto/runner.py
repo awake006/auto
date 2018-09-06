@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 from auto import global_data
 from auto.log import console_logger
 from auto.request import request
-from auto.response import chenk
+from auto.response import check
 from auto.build_data import get_case_data
 from auto import exception
 
@@ -16,7 +16,7 @@ def run(testcase_id):
         console_logger.info(case_not_exist)
         print(global_data.testcase)
         sys.exit()
-    name, _, method, message, request_type, chenk_method, url = get_case_data(testcase_id)
+    name, _, method, message, request_type, check_method, url = get_case_data(testcase_id)
     url = urljoin(global_data.host, url)
     message_info_case = 'RUN CASE[%s]--NAME[%s]--[%s]--[%s]' % (testcase_id, name, method, url)
     console_logger.info(message_info_case)
@@ -30,7 +30,7 @@ def run(testcase_id):
     except json.JSONDecodeError:
         raise exception.ReturnFormatException(testcase_response.text)
 
-    result = chenk(testcase_id, testcase_response_json, chenk_method, message)
+    result = check(testcase_id, testcase_response_json, check_method, message)
     if not result:
         raise exception.CaseFailException('case fail')
     if method == 'DELETE':

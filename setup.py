@@ -23,12 +23,14 @@ setup(
     url="https://github.com/awake006/auto",
     packages=['auto'],
     install_requires=[
+        'Flask>=1.0.2',
         'setuptools>=28.8.0',
         'lxml>=4.1.1',
         'PyMySQL>=0.8.1',
         'PyYAML>=3.12',
         'requests>=2.13.0',
         'xmlrunner>=1.7.7',
+        'locustio>=0.8.1',
     ],
 
 
