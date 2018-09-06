@@ -9,7 +9,6 @@ class TestCaseSchema(Schema):
     check_method = fields.Str()
     url = fields.Str(required=True)
     method = fields.Str()
-    parameter = fields.Dict()
     message = fields.Str()
 
     @validates('check_method')
