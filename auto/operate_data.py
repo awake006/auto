@@ -68,33 +68,27 @@ def conversion_case(path):
         operate_file = OperateFile(i)
         testcase_data = operate_file.load_data()
         if not isinstance(testcase_data, list) and testcase_data:
-            schema = TestCaseSchema()
-            result_errors = schema.load(testcase_data).errors
-            if result_errors:
-                errors_message = 'testcase file-{} errors-{}'.format(i, result_errors)
-                console_logger.error(errors_message)
-                sys.exit()
-            if testcase_data.get('id') in global_data.testcase.keys():
-                console_logger.error('file-{} testcase id {} exist'.format(i, testcase_data.get('id')))
-                sys.exit()
-            global_data.testcase[testcase_data.get('id')] = testcase_data
+            check_case(testcase_data, i)
             continue
         number = 0
         for testcase in testcase_data:
             number += 1
             if testcase:
-                # print(type(testcase))
-                schema = TestCaseSchema()
-                result_errors = schema.load(testcase).errors
-                if result_errors:
-                    errors_message = 'testcase file-{} case-{} errors-{}'.format(i, number, result_errors)
-                    console_logger.error(errors_message)
-                    sys.exit()
-                if testcase.get('id') in global_data.testcase.keys():
-                    console_logger.error('file-{} case-{} testcase id {} exist'.format(i, number, testcase.get('id')))
-                    sys.exit()
-                global_data.testcase[testcase.get('id')] = testcase
+                check_case(testcase, i, number=number)
     console_logger.info('Test case conversion completed')
+
+
+def check_case(testcase, i, number=1):
+    schema = TestCaseSchema()
+    result_errors = schema.load(testcase).errors
+    if result_errors:
+        errors_message = 'testcase file-{} case-{} errors-{}'.format(i, number, result_errors)
+        console_logger.error(errors_message)
+        sys.exit()
+    if testcase.get('id') in global_data.testcase.keys():
+        console_logger.error('file-{} case-{} testcase id {} exist'.format(i, number, testcase.get('id')))
+        sys.exit()
+    global_data.testcase[testcase.get('id')] = testcase
 
 
 def set_str(n, index):

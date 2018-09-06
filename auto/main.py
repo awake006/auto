@@ -8,7 +8,7 @@ from optparse import OptionParser
 from xmlrunner import XMLTestRunner
 
 from auto import global_data
-from auto.create import create_example, create_script
+from auto.create_file import create_example, create_script
 from auto.log import console_logger, setup_logging
 from auto.operate_data import *
 from auto.result import HTMLTestRunner
@@ -105,7 +105,6 @@ def main():
     script_dir = PATH(os.path.join(path, 'case/script'))
     script_file = PATH(os.path.join(script_dir, 'test_allcase.py'))
     create_script(script_file, testcase_id_list)
-    print(1111111111111)
     # Generate test report
     suit = unittest.TestSuite()
     discover = unittest.defaultTestLoader.discover(script_dir, pattern='test_*')
