@@ -2,7 +2,7 @@ import os
 import sys
 
 from auto import global_data
-from auto.build_data import get_case_data, get_case_id_list
+from auto.operate_data import get_case_data, get_case_id_list
 
 
 def create_script(script_file, testcase_id_list):

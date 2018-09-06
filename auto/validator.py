@@ -1,5 +1,4 @@
 from marshmallow import Schema, ValidationError, validates, fields
-from marshmallow.base import FieldABC
 
 
 class TestCaseSchema(Schema):
@@ -23,11 +22,11 @@ class TestCaseSchema(Schema):
             raise ValidationError('method must in  put、get、post、delete')
 
 
-def main():
-    from auto.operate_file import operate_yaml
+# def main():
+#     from auto.operate_file import operate_yaml
 
-    data = operate_yaml(r'D:\python_code\auto\case\yaml\add_cateory.yaml')
-    schema = TestCaseSchema(data[0].get('id'), r'D:\python_code\auto\case\yaml\add_cateory.yaml')
-    schema = schema.load(data[0])
-    print(schema)
-    print('errors {}'.format(schema.errors))
+#     data = operate_yaml(r'D:\python_code\auto\case\yaml\add_cateory.yaml')
+#     schema = TestCaseSchema(data[0].get('id'), r'D:\python_code\auto\case\yaml\add_cateory.yaml')
+#     schema = schema.load(data[0])
+#     print(schema)
+#     print('errors {}'.format(schema.errors))

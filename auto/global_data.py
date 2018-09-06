@@ -1,11 +1,13 @@
 # data storage
+testcase = {}
 '''
 Use case storage{
     case_id1:{caseinfo:info,prarm:{key1:[value0,value1],key2:value2}},
     case_id2:{caseinfo:info,prarm:{key1:[value0,value1],key2:value2}}
 }
 '''
-testcase = {}
+
+testcase_result = {}
 '''
 Use case result parameter storage for other use case calls  
 {
@@ -17,7 +19,9 @@ Use case result parameter storage for other use case calls
         }
 }
 '''
-testcase_result = {}
+
+
+testcase_parameter = {}
 '''
 Submit parameter storage for verification results with the database 
 {
@@ -36,9 +40,8 @@ Submit parameter storage for verification results with the database
             },
 }
 '''
-testcase_parameter = {}
-testcase_id = {}
 
+testcase_id = {}
 token = ''
 headers = {}
 host = ''

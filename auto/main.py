@@ -3,14 +3,45 @@ import os
 import sys
 import time
 import unittest
+from optparse import OptionParser
+
 from xmlrunner import XMLTestRunner
 
 from auto import global_data
-from auto.cli_param import parse_options
-from auto.create import *
-from auto.log import setup_logging, console_logger
-from auto.operate_file import *
-from auto.runhtml import HTMLTestRunner
+from auto.create import create_example, create_script
+from auto.log import console_logger, setup_logging
+from auto.operate_data import *
+from auto.result import HTMLTestRunner
+
+
+def parse_options():
+    parser = OptionParser('Auto')
+    parser.add_option(
+        '-H', '--host',
+        dest='host',
+        default=None,
+        help='Run the test host, read from the configuration file by default'
+    )
+    parser.add_option(
+        '-C', '--create-template',
+        dest='create_template',
+        default=None,
+        help='Create test cases and configuration file templates, stored in the api folder under the execution folder'
+    )
+    parser.add_option(
+        '-T', '--token',
+        dest='token',
+        default=None,
+        help='token,default configuration'
+    )
+    parser.add_option(
+        '-R', '--report',
+        dest='report_format',
+        default=None,
+        help='xml or html'
+    )
+    opts, _ = parser.parse_args()
+    return opts
 
 
 def log_init(path_p):
@@ -28,7 +59,7 @@ def PATH(p):
 
 def loading_data(testcase_dir, config_file, token):
     conversion_case(testcase_dir)
-    config_data = operate_yaml(config_file)[0]
+    config_data = OperateFile(config_file).load_data()[0]
     global_data.host = config_data.get('host')
     global_data.headers = config_data.get('headers')
     global_data.token = config_data.get('token')
@@ -50,7 +81,7 @@ def main():
     opts = parse_options()
     host = opts.host
     is_create = opts.create_template
-    report_format = opts.format
+    report_format = opts.report_format
     token = opts.token
     path = os.getcwd()
 
@@ -74,6 +105,7 @@ def main():
     script_dir = PATH(os.path.join(path, 'case/script'))
     script_file = PATH(os.path.join(script_dir, 'test_allcase.py'))
     create_script(script_file, testcase_id_list)
+    print(1111111111111)
     # Generate test report
     suit = unittest.TestSuite()
     discover = unittest.defaultTestLoader.discover(script_dir, pattern='test_*')
