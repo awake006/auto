@@ -21,9 +21,6 @@ def run(testcase_id):
     message_info_case = 'RUN CASE[%s]--NAME[%s]--[%s]--[%s]' % (testcase_id, name, method, url)
     console_logger.info(message_info_case)
     testcase_response = request(request_type, testcase_id, method, url)
-    if isinstance(testcase_response, int):
-        raise exception.ParameterBuildFailedException(
-            'The use case [%s] failed to execute, the use case [%s] parameter could not be built, and the use case was not executed yet.' % (testcase_response, testcase_id))
     testcase_response.encoding = 'utf-8'
     try:
         testcase_response_json = testcase_response.json()
