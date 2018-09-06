@@ -10,6 +10,7 @@ class TestCaseSchema(Schema):
     url = fields.Str(required=True)
     method = fields.Str()
     message = fields.Str()
+    parameter = fields.Dict()
 
     @validates('check_method')
     def validate_check_method(self, value):

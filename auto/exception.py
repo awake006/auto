@@ -23,3 +23,7 @@ class CaseFailException(Exception):
 
 class CaseRequiredDataException(Exception):
     pass
+
+
+class ParameterFormatException(Exception):
+    pass
