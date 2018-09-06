@@ -27,6 +27,8 @@ class OperateFile(object):
         try:
             with open(self.file, encoding="utf-8") as f:
                 result = json.load(f)
+                if isinstance(result, list):
+                    result = [i for i in result if i != '']
                 return result
         except FileNotFoundError as e:
             console_logger.error(e)
@@ -39,6 +41,7 @@ class OperateFile(object):
         try:
             with open(self.file, encoding="utf-8")as f:
                 result = yaml.load(f)
+                result = [i for i in result if i != '']
                 return result
         except FileNotFoundError as e:
             console_logger.error(e)
@@ -73,8 +76,7 @@ def conversion_case(path):
         number = 0
         for testcase in testcase_data:
             number += 1
-            if testcase:
-                check_case(testcase, i, number=number)
+            check_case(testcase, i, number=number)
     console_logger.info('Test case conversion completed')
 
 
